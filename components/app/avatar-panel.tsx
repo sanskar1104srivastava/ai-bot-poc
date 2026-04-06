@@ -4,10 +4,10 @@ import { ParticipantKind, Track } from 'livekit-client';
 import {
   VideoTrack,
   useAgent,
-  useChat,
   useParticipantTracks,
   useRemoteParticipants,
   useSessionContext,
+  useSessionMessages,
   useVoiceAssistant,
 } from '@livekit/components-react';
 import { AgentChatTranscript } from '@/components/agents-ui/agent-chat-transcript';
@@ -20,7 +20,7 @@ interface AvatarPanelProps {
 }
 
 function TranscriptWindow() {
-  const { chatMessages } = useChat();
+  const { messages } = useSessionMessages();
   const { state: agentState } = useAgent();
 
   return (
@@ -30,14 +30,14 @@ function TranscriptWindow() {
         <span className="text-xs font-semibold tracking-wide">Live Transcript</span>
       </div>
       <div className="flex-1 overflow-hidden">
-        {chatMessages.length === 0 ? (
+        {messages.length === 0 ? (
           <p className="text-muted-foreground p-3 text-xs">
             Transcript will appear here once the interview starts…
           </p>
         ) : (
           <AgentChatTranscript
             agentState={agentState}
-            messages={chatMessages}
+            messages={messages}
             className="h-full [&>div>div]:px-3 [&>div>div]:py-2 [&>div>div]:text-xs"
           />
         )}
@@ -114,7 +114,7 @@ export function AvatarPanel({ className }: AvatarPanelProps) {
       </div>
 
       {/* Column 2 — Live transcript (full height, thin) */}
-      <div className="hidden h-full w-[320px] shrink-0 flex-col md:flex">
+      <div className="hidden h-full w-[420px] shrink-0 flex-col md:flex">
         <TranscriptWindow />
       </div>
 

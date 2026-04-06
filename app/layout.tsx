@@ -61,6 +61,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     >
       <head>
         {styles && <style>{styles}</style>}
+        <link rel="icon" href="data:," />
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
       </head>
