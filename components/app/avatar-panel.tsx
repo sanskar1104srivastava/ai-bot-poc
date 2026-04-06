@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { ParticipantKind, Track } from 'livekit-client';
 import {
   VideoTrack,
@@ -17,6 +18,66 @@ import { cn } from '@/lib/shadcn/utils';
 
 interface AvatarPanelProps {
   className?: string;
+}
+
+function UserCamera() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const [permission, setPermission] = useState<'idle' | 'granted' | 'denied'>('idle');
+
+  useEffect(() => {
+    const constraints: MediaStreamConstraints[] = [
+      { video: { facingMode: 'user' } },
+      { video: true },
+    ];
+
+    const tryNext = (index: number) => {
+      if (index >= constraints.length) {
+        setPermission('denied');
+        return;
+      }
+      navigator.mediaDevices
+        .getUserMedia(constraints[index])
+        .then((stream) => {
+          streamRef.current = stream;
+          setPermission('granted');
+          if (videoRef.current) videoRef.current.srcObject = stream;
+        })
+        .catch((err: unknown) => {
+          if (err instanceof OverconstrainedError || (err as DOMException)?.name === 'OverconstrainedError') {
+            tryNext(index + 1);
+          } else {
+            setPermission('denied');
+          }
+        });
+    };
+
+    tryNext(0);
+
+    return () => {
+      streamRef.current?.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+    };
+  }, []);
+
+  return (
+    <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-xl bg-black shadow-lg">
+      {permission === 'denied' ? (
+        <p className="px-4 text-center text-xs text-white/40">Camera access denied</p>
+      ) : (
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
+          className="size-full object-cover scale-x-[-1]"
+        />
+      )}
+      <div className="absolute top-3 left-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+        You
+      </div>
+    </div>
+  );
 }
 
 function TranscriptWindow() {
@@ -97,6 +158,9 @@ export function AvatarPanel({ className }: AvatarPanelProps) {
             AI Interviewer
           </div>
         </div>
+
+        {/* User camera */}
+        <UserCamera />
 
         {/* Control bar */}
         <AgentControlBar
