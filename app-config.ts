@@ -22,9 +22,9 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveCare',
-  pageTitle: 'LiveCare',
-  pageDescription: 'AI-powered healthcare intake assistant',
+  companyName: 'AlgoFlow AI',
+  pageTitle: 'AlgoFlow AI — Interview Platform',
+  pageDescription: 'AI-powered technical interview platform',
 
   supportsChatInput: false,
   supportsVideoInput: false,
@@ -32,10 +32,10 @@ export const APP_CONFIG_DEFAULTS: AppConfig = {
   isPreConnectBufferEnabled: true,
 
   logo: '/livecare-logo-light.svg',
-  accent: '#00753B',
+  accent: '#22c55e',
   logoDark: '/livecare-logo-dark.svg',
-  accentDark: '#1EB66A',
-  startButtonText: 'Start intake',
+  accentDark: '#4ade80',
+  startButtonText: 'Start Interview',
 
   // agent dispatch configuration
   agentName: process.env.AGENT_NAME ?? 'Anam-Demo',

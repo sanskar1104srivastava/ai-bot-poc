@@ -1,20 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
-function WelcomeImage() {
-  return (
-    <div className="mb-4 size-64 overflow-hidden rounded-lg border-4 border-gray-200 dark:border-gray-800">
-      <Image
-        src="/liv.jpg"
-        alt="Liv AI assistant"
-        width={256}
-        height={256}
-        className="size-full object-cover"
-      />
-    </div>
-  );
-}
-
 interface WelcomeViewProps {
   startButtonText: string;
   onStartCall: () => void;
@@ -26,39 +12,57 @@ export const WelcomeView = ({
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
   return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+    <div ref={ref} className="flex flex-col items-center justify-center px-4">
+      <section className="bg-background flex w-full max-w-md flex-col items-center gap-6 text-center">
+        {/* Avatar */}
+        <div className="relative">
+          <div className="size-28 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl ring-4 ring-primary/10">
+            <Image
+              src="/avartar_new.jpeg"
+              alt="AlgoFlow AI Interviewer"
+              width={112}
+              height={112}
+              className="size-full object-cover"
+            />
+          </div>
+          {/* Online indicator */}
+          <span className="absolute right-1 bottom-1 size-4 rounded-full border-2 border-background bg-green-500" />
+        </div>
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Complete your healthcare intake
-          <br />
-          Powered by Anam + LiveKit
-        </p>
+        {/* Text */}
+        <div className="space-y-2">
+          <h1 className="text-2xl font-bold tracking-tight">Ready for your interview?</h1>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            Your AI interviewer is online. You&apos;ll have a live video session with a built-in
+            notes editor to write your answers and code.
+          </p>
+        </div>
 
+        {/* Feature pills */}
+        <div className="flex flex-wrap justify-center gap-2">
+          {['Voice & Video', 'Notes Editor', 'Code Snippets', 'Real-time AI'].map((f) => (
+            <span
+              key={f}
+              className="bg-primary/8 text-primary rounded-full px-3 py-1 text-xs font-medium"
+            >
+              {f}
+            </span>
+          ))}
+        </div>
+
+        {/* CTA */}
         <Button
           size="lg"
           onClick={onStartCall}
-          className="mt-6 w-64 rounded-full font-mono text-xs font-bold tracking-wider uppercase"
+          className="w-full max-w-xs rounded-full font-mono text-xs font-bold tracking-wider uppercase"
         >
           {startButtonText}
         </Button>
-      </section>
 
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
-          >
-            Voice AI quickstart
-          </a>
-          .
+        <p className="text-muted-foreground text-xs">
+          Make sure your microphone is enabled before starting.
         </p>
-      </div>
+      </section>
     </div>
   );
 };

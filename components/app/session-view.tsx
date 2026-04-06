@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useSessionContext } from '@livekit/components-react';
 import type { AppConfig } from '@/app-config';
 import { AvatarPanel } from '@/components/app/avatar-panel';
 
@@ -13,14 +12,11 @@ export const SessionView = ({
   appConfig,
   ...props
 }: React.ComponentProps<'section'> & SessionViewProps) => {
-  void appConfig; // passed for type/API consistency; may be used later
-  const { isConnected } = useSessionContext();
-
-  void isConnected;
+  void appConfig;
 
   return (
     <section
-      className="bg-background relative flex h-full w-full flex-col overflow-hidden"
+      className="bg-background relative flex h-[calc(100dvh-var(--app-top-strip-height)-env(safe-area-inset-top))] w-full flex-col overflow-hidden"
       style={{ zIndex: 'var(--app-z-session)' }}
       {...props}
     >

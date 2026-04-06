@@ -1,7 +1,6 @@
 import { Public_Sans } from 'next/font/google';
 import localFont from 'next/font/local';
 import { headers } from 'next/headers';
-import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
 import { ThemeProvider } from '@/components/app/theme-provider';
 import { ThemeToggle } from '@/components/app/theme-toggle';
 import { cn } from '@/lib/shadcn/utils';
@@ -48,7 +47,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   const hdrs = await headers();
   const appConfig = await getAppConfig(hdrs);
   const styles = getStyles(appConfig);
-  const { pageTitle, pageDescription, companyName, logo, logoDark } = appConfig;
+  const { pageTitle, pageDescription } = appConfig;
 
   return (
     <html
@@ -73,55 +72,18 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           <header
-            className="border-border/60 bg-background/90 fixed top-0 left-0 flex w-full items-center justify-between border-b px-3 backdrop-blur-sm md:px-4"
+            className="border-border/60 fixed top-0 left-0 flex w-full items-center border-b bg-neutral-950 px-4 backdrop-blur-sm"
             style={{
               height: 'calc(var(--app-top-strip-height) + env(safe-area-inset-top))',
               paddingTop: 'env(safe-area-inset-top)',
               zIndex: 'var(--app-z-header)',
             }}
           >
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://livekit.io"
-              className="scale-100 transition-transform duration-300 hover:scale-110"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={logo}
-                alt={`${companyName} Logo`}
-                className="block size-14 sm:size-26 dark:hidden"
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={logoDark ?? logo}
-                alt={`${companyName} Logo`}
-                className="hidden size-14 sm:size-26 dark:block"
-              />
-            </a>
-            <div className="text-foreground flex items-center gap-3 text-right font-mono text-[11px] font-bold tracking-wider uppercase md:text-xs">
-              <span>
-                <span className="hidden sm:inline">Built with </span>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://docs.livekit.io/agents"
-                  className="underline underline-offset-4"
-                >
-                  <span className="sm:hidden">LiveKit docs</span>
-                  <span className="hidden sm:inline">LiveKit Agents</span>
-                </a>
-              </span>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://github.com/livekit-examples/python-agents-examples/tree/main/complex-agents/avatars/anam"
-                aria-label="Anam GitHub repository"
-                className="text-foreground/80 hover:text-foreground transition-colors"
-              >
-                <GithubLogoIcon size={18} weight="fill" />
-              </a>
-            </div>
+            <span className="font-mono text-xl font-bold tracking-widest uppercase select-none">
+              <span style={{ color: '#22c55e' }}>Algo</span>
+              <span className="text-white">Flow</span>
+              <span className="text-white ml-1.5">AI</span>
+            </span>
           </header>
 
           {children}
