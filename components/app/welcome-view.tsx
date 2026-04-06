@@ -16,7 +16,7 @@ export const WelcomeView = ({
       <section className="bg-background flex w-full max-w-md flex-col items-center gap-6 text-center">
         {/* Avatar */}
         <div className="relative">
-          <div className="size-28 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl ring-4 ring-primary/10">
+          <div className="border-primary/20 ring-primary/10 size-28 overflow-hidden rounded-full border-4 shadow-xl ring-4">
             <Image
               src="/avartar_new.jpeg"
               alt="AlgoFlow AI Interviewer"
@@ -26,7 +26,7 @@ export const WelcomeView = ({
             />
           </div>
           {/* Online indicator */}
-          <span className="absolute right-1 bottom-1 size-4 rounded-full border-2 border-background bg-green-500" />
+          <span className="border-background absolute right-1 bottom-1 size-4 rounded-full border-2 bg-green-500" />
         </div>
 
         {/* Text */}

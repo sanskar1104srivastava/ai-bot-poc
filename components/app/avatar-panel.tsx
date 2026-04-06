@@ -25,7 +25,7 @@ function TranscriptWindow() {
 
   return (
     <div className="border-border bg-background flex h-full flex-col overflow-hidden rounded-xl border shadow-sm">
-      <div className="border-border flex items-center gap-2 border-b px-3 py-2 shrink-0">
+      <div className="border-border flex shrink-0 items-center gap-2 border-b px-3 py-2">
         <span className="size-2 animate-pulse rounded-full bg-green-500" />
         <span className="text-xs font-semibold tracking-wide">Live Transcript</span>
       </div>
@@ -76,7 +76,6 @@ export function AvatarPanel({ className }: AvatarPanelProps) {
 
   return (
     <div className={cn('flex h-full w-full gap-4 p-4 md:p-6', className)}>
-
       {/* Column 1 — AI video + controls */}
       <div className="flex w-full shrink-0 flex-col gap-4 md:w-[320px]">
         {/* AI video */}
@@ -123,11 +122,12 @@ export function AvatarPanel({ className }: AvatarPanelProps) {
       <div className="hidden flex-1 flex-col gap-2 md:flex">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold tracking-wide">Your Notes</h2>
-          <span className="text-muted-foreground text-xs">Use this space for your answers or code</span>
+          <span className="text-muted-foreground text-xs">
+            Use this space for your answers or code
+          </span>
         </div>
         <RichTextEditor className="flex-1" />
       </div>
-
     </div>
   );
 }

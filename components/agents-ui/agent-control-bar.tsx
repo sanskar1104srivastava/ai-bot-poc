@@ -57,9 +57,9 @@ const MOTION_PROPS = {
   initial: 'hidden',
   transition: {
     duration: 0.3,
-    ease: 'easeOut',
+    ease: 'easeOut' as const,
   },
-};
+} as const;
 
 interface AgentChatInputProps {
   chatOpen: boolean;

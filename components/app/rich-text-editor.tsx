@@ -1,20 +1,20 @@
 'use client';
 
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import Placeholder from '@tiptap/extension-placeholder';
 import {
   Bold,
-  Italic,
-  UnderlineIcon,
-  List,
-  ListOrdered,
   Code,
   Heading2,
-  Undo,
+  Italic,
+  List,
+  ListOrdered,
   Redo,
+  UnderlineIcon,
+  Undo,
 } from 'lucide-react';
+import Placeholder from '@tiptap/extension-placeholder';
+import Underline from '@tiptap/extension-underline';
+import { EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 import { cn } from '@/lib/shadcn/utils';
 
 function ToolbarButton({
@@ -129,16 +129,10 @@ export function RichTextEditor({ className }: RichTextEditorProps) {
 
         <div className="bg-border mx-1 h-4 w-px" />
 
-        <ToolbarButton
-          title="Undo"
-          onClick={() => editor.chain().focus().undo().run()}
-        >
+        <ToolbarButton title="Undo" onClick={() => editor.chain().focus().undo().run()}>
           <Undo size={14} />
         </ToolbarButton>
-        <ToolbarButton
-          title="Redo"
-          onClick={() => editor.chain().focus().redo().run()}
-        >
+        <ToolbarButton title="Redo" onClick={() => editor.chain().focus().redo().run()}>
           <Redo size={14} />
         </ToolbarButton>
       </div>

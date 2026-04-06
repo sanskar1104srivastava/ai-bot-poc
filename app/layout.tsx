@@ -82,7 +82,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <span className="font-mono text-xl font-bold tracking-widest uppercase select-none">
               <span style={{ color: '#22c55e' }}>Algo</span>
               <span className="text-white">Flow</span>
-              <span className="text-white ml-1.5">AI</span>
+              <span className="ml-1.5 text-white">AI</span>
             </span>
           </header>
 

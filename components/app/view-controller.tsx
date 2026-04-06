@@ -23,9 +23,9 @@ const VIEW_MOTION_PROPS = {
   exit: 'hidden',
   transition: {
     duration: 0.5,
-    ease: 'linear',
+    ease: 'linear' as const,
   },
-};
+} as const;
 
 interface ViewControllerProps {
   appConfig: AppConfig;
