@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { ParticipantKind, Track } from 'livekit-client';
 import {
   VideoTrack,
   useAgent,
+  useLocalParticipant,
   useParticipantTracks,
   useRemoteParticipants,
   useSessionContext,
@@ -21,57 +21,16 @@ interface AvatarPanelProps {
 }
 
 function UserCamera() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const [permission, setPermission] = useState<'idle' | 'granted' | 'denied'>('idle');
-
-  useEffect(() => {
-    const constraints: MediaStreamConstraints[] = [
-      { video: { facingMode: 'user' } },
-      { video: true },
-    ];
-
-    const tryNext = (index: number) => {
-      if (index >= constraints.length) {
-        setPermission('denied');
-        return;
-      }
-      navigator.mediaDevices
-        .getUserMedia(constraints[index])
-        .then((stream) => {
-          streamRef.current = stream;
-          setPermission('granted');
-          if (videoRef.current) videoRef.current.srcObject = stream;
-        })
-        .catch((err: unknown) => {
-          if (err instanceof OverconstrainedError || (err as DOMException)?.name === 'OverconstrainedError') {
-            tryNext(index + 1);
-          } else {
-            setPermission('denied');
-          }
-        });
-    };
-
-    tryNext(0);
-
-    return () => {
-      streamRef.current?.getTracks().forEach((t) => t.stop());
-      streamRef.current = null;
-    };
-  }, []);
+  const { localParticipant } = useLocalParticipant();
+  const localTracks = useParticipantTracks([Track.Source.Camera], localParticipant?.identity);
+  const cameraTrack = localTracks.find((t) => t.source === Track.Source.Camera);
 
   return (
     <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-xl bg-black shadow-lg">
-      {permission === 'denied' ? (
-        <p className="px-4 text-center text-xs text-white/40">Camera access denied</p>
+      {cameraTrack ? (
+        <VideoTrack trackRef={cameraTrack} className="size-full object-cover scale-x-[-1]" />
       ) : (
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          playsInline
-          className="size-full object-cover scale-x-[-1]"
-        />
+        <p className="px-4 text-center text-xs text-white/40">Camera off</p>
       )}
       <div className="absolute top-3 left-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
         You
@@ -169,7 +128,7 @@ export function AvatarPanel({ className }: AvatarPanelProps) {
           controls={{
             microphone: true,
             leave: true,
-            camera: false,
+            camera: true,
             screenShare: false,
             chat: false,
           }}

@@ -10,6 +10,7 @@ export interface AgentDisconnectButtonProps
   extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
   icon?: React.ReactNode;
   children?: React.ReactNode;
+  onBeforeDisconnect?: () => Promise<void>;
 }
 
 export function AgentDisconnectButton({
@@ -17,11 +18,15 @@ export function AgentDisconnectButton({
   size = 'default',
   children,
   onClick,
+  onBeforeDisconnect,
   ...props
 }: AgentDisconnectButtonProps) {
   const { end } = useSessionContext();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
+    if (onBeforeDisconnect) {
+      await onBeforeDisconnect();
+    }
     end();
   };
 

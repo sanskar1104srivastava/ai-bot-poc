@@ -193,6 +193,10 @@ export interface AgentControlBarProps extends UseInputControlsProps {
    */
   onDisconnect?: () => void;
   /**
+   * Called before disconnect — if provided, disconnect waits until this resolves.
+   */
+  onBeforeDisconnect?: () => Promise<void>;
+  /**
    * The callback for when the chat is opened or closed.
    */
   onIsChatOpenChange?: (open: boolean) => void;
@@ -232,6 +236,7 @@ export function AgentControlBar({
   isConnected = false,
   saveUserChoices = true,
   onDisconnect,
+  onBeforeDisconnect,
   onDeviceError,
   onIsChatOpenChange,
   className,
@@ -374,6 +379,7 @@ export function AgentControlBar({
         {visibleControls.leave && (
           <AgentDisconnectButton
             onClick={onDisconnect}
+            onBeforeDisconnect={onBeforeDisconnect}
             disabled={!isConnected}
             className={cn(
               variant === 'livekit' &&
