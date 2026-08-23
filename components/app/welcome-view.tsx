@@ -1,15 +1,24 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
-function WelcomeImage() {
+function SahaiLogo() {
   return (
-    <div className="mb-4 size-64 overflow-hidden rounded-lg border-4 border-gray-200 dark:border-gray-800">
+    <div className="mb-6 h-16 w-auto">
       <Image
-        src="/liv.jpg"
-        alt="Liv AI assistant"
-        width={256}
-        height={256}
-        className="size-full object-cover"
+        src="/sahai-logo-light.png"
+        alt="Sahai"
+        width={240}
+        height={64}
+        className="block h-16 w-auto dark:hidden"
+        priority
+      />
+      <Image
+        src="/sahai-logo-dark.png"
+        alt="Sahai"
+        width={240}
+        height={64}
+        className="hidden h-16 w-auto dark:block"
+        priority
       />
     </div>
   );
@@ -26,14 +35,12 @@ export const WelcomeView = ({
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
   return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+    <div ref={ref} className="flex min-h-0 flex-1 flex-col">
+      <section className="bg-background flex h-full min-h-0 flex-col items-center justify-center text-center">
+        <SahaiLogo />
 
         <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Complete your healthcare intake
-          <br />
-          Powered by Anam + LiveKit
+          Sahai se baat karein — Algoflow AI ka HIMS assistant
         </p>
 
         <Button
@@ -44,21 +51,6 @@ export const WelcomeView = ({
           {startButtonText}
         </Button>
       </section>
-
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
-          >
-            Voice AI quickstart
-          </a>
-          .
-        </p>
-      </div>
     </div>
   );
 };

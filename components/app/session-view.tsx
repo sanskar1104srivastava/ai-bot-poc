@@ -20,11 +20,11 @@ export const SessionView = ({
 
   return (
     <section
-      className="bg-background relative flex h-full w-full flex-col overflow-hidden"
+      className="bg-background relative flex h-full min-h-0 w-full flex-1 flex-col items-center justify-center overflow-hidden sm:p-6"
       style={{ zIndex: 'var(--app-z-session)' }}
       {...props}
     >
-      <AvatarPanel className="flex-1" />
+      <AvatarPanel className="h-full w-full sm:aspect-square sm:h-auto sm:max-h-[85vh] sm:max-w-xl sm:rounded-lg" />
     </section>
   );
 };

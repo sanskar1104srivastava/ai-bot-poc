@@ -59,30 +59,33 @@ export function AvatarPanel({ className }: AvatarPanelProps) {
   const videoHeight = trackRef?.publication.dimensions?.height ?? 0;
 
   return (
-    <div className={cn('flex flex-col items-center justify-start gap-5 p-6', className)}>
-      <div className="relative flex aspect-square w-full max-w-xl min-w-0 items-center justify-center overflow-hidden rounded-lg bg-black">
-        {trackRef ? (
-          <VideoTrack
-            width={videoWidth}
-            height={videoHeight}
-            trackRef={trackRef}
-            className="size-full object-cover"
-          />
-        ) : null}
-      </div>
+    <div className={cn('relative h-full w-full overflow-hidden bg-black', className)}>
+      {trackRef && (
+        <VideoTrack
+          width={videoWidth}
+          height={videoHeight}
+          trackRef={trackRef}
+          className="size-full object-cover"
+        />
+      )}
 
-      <AgentControlBar
-        variant="livekit"
-        isConnected={isConnected}
-        controls={{
-          microphone: true,
-          leave: true,
-          camera: false,
-          screenShare: false,
-          chat: false,
-        }}
-        className="w-full max-w-xl shrink-0"
-      />
+      <div
+        className="absolute inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-black/60 to-transparent px-4 pt-10"
+        style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}
+      >
+        <AgentControlBar
+          variant="livekit"
+          isConnected={isConnected}
+          controls={{
+            microphone: true,
+            leave: true,
+            camera: false,
+            screenShare: false,
+            chat: false,
+          }}
+          className="w-full max-w-xl shrink-0"
+        />
+      </div>
     </div>
   );
 }

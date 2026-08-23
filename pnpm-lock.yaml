@@ -14,6 +14,9 @@ importers:
       '@livekit/protocol':
         specifier: ^1.40.0
         version: 1.41.0
+      '@mediapipe/tasks-vision':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@phosphor-icons/react':
         specifier: ^2.1.8
         version: 2.1.10(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -539,6 +542,9 @@ packages:
 
   '@livekit/protocol@1.42.2':
     resolution: {integrity: sha512-0jeCwoMJKcwsZICg5S6RZM4xhJoF78qMvQELjACJQn6/VB+jmiySQKOSELTXvPBVafHfEbMlqxUw2UR1jTXs2g==}
+
+  '@mediapipe/tasks-vision@1.0.1':
+    resolution: {integrity: sha512-rvRE2FmAZ6ZxKSw7wq+e+jQDpN3t1B/tD2mJz9SmAzb1msoDkd4dMoE4wAh8Z30Um0PQwLiHr9QtomhmXk3aUQ==}
 
   '@mermaid-js/parser@0.6.3':
     resolution: {integrity: sha512-lnjOhe7zyHjc+If7yT4zoedx2vo4sHaTmtkl1+or8BRTnCtDmcTpAjpzDSfCZrshM5bCoz0GyidzadJAH1xobA==}
@@ -4221,6 +4227,8 @@ snapshots:
   '@livekit/protocol@1.42.2':
     dependencies:
       '@bufbuild/protobuf': 1.10.1
+
+  '@mediapipe/tasks-vision@1.0.1': {}
 
   '@mermaid-js/parser@0.6.3':
     dependencies:

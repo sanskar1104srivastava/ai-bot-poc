@@ -22,23 +22,23 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveCare',
-  pageTitle: 'LiveCare',
-  pageDescription: 'AI-powered healthcare intake assistant',
+  companyName: 'Algoflow AI',
+  pageTitle: 'Sahai',
+  pageDescription: 'Algoflow AI ka HIMS assistant',
 
   supportsChatInput: false,
   supportsVideoInput: false,
   supportsScreenShare: false,
   isPreConnectBufferEnabled: true,
 
-  logo: '/livecare-logo-light.svg',
+  logo: '/sahai-logo-light.png',
   accent: '#00753B',
-  logoDark: '/livecare-logo-dark.svg',
+  logoDark: '/sahai-logo-dark.png',
   accentDark: '#1EB66A',
-  startButtonText: 'Start intake',
+  startButtonText: 'Sahai se baat karein',
 
   // agent dispatch configuration
-  agentName: process.env.AGENT_NAME ?? 'Anam-Demo',
+  agentName: process.env.AGENT_NAME ?? 'Sahai-HIMS-Agent',
 
   // LiveKit Cloud Sandbox configuration
   sandboxId: undefined,

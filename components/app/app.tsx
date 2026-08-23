@@ -7,6 +7,7 @@ import { WarningIcon } from '@phosphor-icons/react/dist/ssr';
 import type { AppConfig } from '@/app-config';
 import { AgentSessionProvider } from '@/components/agents-ui/agent-session-provider';
 import { StartAudioButton } from '@/components/agents-ui/start-audio-button';
+import { PresenceGate } from '@/components/app/presence-gate';
 import { ViewController } from '@/components/app/view-controller';
 import { Toaster } from '@/components/ui/sonner';
 import { useAgentErrors } from '@/hooks/useAgentErrors';
@@ -41,7 +42,8 @@ export function App({ appConfig }: AppProps) {
   return (
     <AgentSessionProvider session={session}>
       <AppSetup />
-      <main className="grid min-h-dvh grid-cols-1 place-content-center pt-[calc(var(--app-top-strip-height)+env(safe-area-inset-top))]">
+      <PresenceGate />
+      <main className="flex min-h-dvh w-full flex-col">
         <ViewController appConfig={appConfig} />
       </main>
       <StartAudioButton label="Start Audio" />
