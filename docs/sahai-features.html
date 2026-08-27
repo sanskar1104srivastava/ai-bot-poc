@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sahai HIMS — Feature Reference</title>
+    <style>
+      /* Deliberately plain. This document is chunked by a retriever, so layout
+         earns nothing and multi-column or table-based layout actively harms
+         extraction. Single column, flat headings, generous spacing. */
+      @page {
+        size: A4;
+        margin: 20mm 18mm;
+      }
+      body {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 11pt;
+        line-height: 1.55;
+        color: #111;
+        max-width: 100%;
+      }
+      h1 {
+        font-size: 20pt;
+        border-bottom: 2px solid #0891b2;
+        padding-bottom: 6pt;
+        margin-bottom: 4pt;
+      }
+      h2 {
+        font-size: 14pt;
+        color: #0e7490;
+        margin-top: 22pt;
+        margin-bottom: 4pt;
+        page-break-after: avoid;
+      }
+      h3 {
+        font-size: 11.5pt;
+        margin-top: 12pt;
+        margin-bottom: 3pt;
+        page-break-after: avoid;
+      }
+      p,
+      li {
+        margin: 4pt 0;
+      }
+      ul {
+        margin: 4pt 0 8pt 0;
+        padding-left: 18pt;
+      }
+      .subtitle {
+        color: #555;
+        font-style: italic;
+        margin-top: 0;
+      }
+      .note {
+        font-size: 9.5pt;
+        color: #555;
+        border-top: 1px solid #ccc;
+        margin-top: 20pt;
+        padding-top: 6pt;
+      }
+      /* Slide marker. Must be *printed text*, not an HTML attribute — Bedrock
+         ingests the extracted text of the PDF, so anything not rendered is lost.
+         The agent strips these before speaking; see search_knowledge_base. */
+      .slide-tag {
+        font-family: 'Courier New', monospace;
+        font-size: 8.5pt;
+        font-weight: normal;
+        color: #94a3b8;
+        margin-left: 8pt;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sahai — Feature Reference</h1>
+    <p class="subtitle">
+      Algoflow AI's Hospital Information Management System, integrated with the Ayushman Bharat
+      Digital Mission. Reference document for the Sahai voice assistant's knowledge base.
+    </p>
+
+    <h2>What Sahai is<span class="slide-tag">[slide:intro]</span></h2>
+    <p>
+      Sahai is an AI-powered Hospital Information Management System (HIMS) built by Algoflow AI for
+      Indian hospitals. Sahai is integrated with the Ayushman Bharat Digital Mission (ABDM) and
+      supports ABHA health account creation, patient consent, and health record exchange as standard
+      functionality rather than as an add-on.
+    </p>
+    <p>
+      Sahai is delivered as a multi-tenant cloud platform. Each hospital registers as its own tenant
+      with its own staff accounts, branding and data. Sahai covers the full patient pathway from
+      registration and appointment booking, through outpatient and inpatient care, diagnostics,
+      pharmacy and theatre, to billing and discharge. Engagements include implementation, data
+      migration, staff training and ongoing support.
+    </p>
+
+    <h2>Patient records<span class="slide-tag">[slide:patients]</span></h2>
+    <p>
+      Sahai's patient module is the central record for every person the hospital treats. Each patient
+      is given a unique hospital identifier (UHID) and a patient profile that carries demographics,
+      contact details, blood group, and linked ABHA identifiers where the patient has one.
+    </p>
+    <h3>What the patient module provides</h3>
+    <ul>
+      <li>A searchable patient directory, with lookup by name, mobile number or ABHA identifier.</li>
+      <li>
+        A printable patient ID card carrying a QR code, so a returning patient can be identified by
+        scanning rather than by re-entering details.
+      </li>
+      <li>
+        Kiosk-style check-in: staff can scan a patient's QR code or an existing ABHA card, search by
+        mobile number, or register a new patient when no record is found.
+      </li>
+      <li>
+        A patient timeline consolidating appointments, OPD and IPD episodes, lab tests, invoices,
+        video consultations and discharges into one chronological view.
+      </li>
+      <li>
+        Document storage for lab reports, prescriptions, invoices, discharge summaries and theatre
+        reports.
+      </li>
+      <li>
+        Recorded patient consent for treatment, billing and ABDM record sharing, with the ability to
+        withdraw consent later.
+      </li>
+    </ul>
+
+    <h2>ABHA registration<span class="slide-tag">[slide:abha]</span></h2>
+    <p>
+      Sahai can create an ABHA (Ayushman Bharat Health Account) for a patient during registration,
+      without leaving the system. Sahai's ABHA registration runs as a guided four-step wizard.
+    </p>
+    <h3>The four steps of ABHA registration in Sahai</h3>
+    <ul>
+      <li><strong>Mobile Check</strong> — find an existing ABHA and any existing patient record.</li>
+      <li><strong>Aadhaar Verification</strong> — verify the patient's identity with an Aadhaar OTP.</li>
+      <li><strong>ABHA Address</strong> — confirm the patient's profile and choose an ABHA address.</li>
+      <li><strong>ABHA Card</strong> — issue the health card and its QR code.</li>
+    </ul>
+    <p>
+      Sahai can also look up an existing ABHA by ABHA number or by mobile number, so a patient who
+      already has an account does not have to create a second one.
+    </p>
+
+    <h2>ABDM integration<span class="slide-tag">[slide:abdm]</span></h2>
+    <p>
+      Sahai's ABDM module connects the hospital to the national digital health ecosystem. It handles
+      the consent lifecycle and the exchange of health records with other ABDM-registered providers.
+    </p>
+    <h3>What the ABDM module provides</h3>
+    <ul>
+      <li>Consent management: raise consent requests, track their status, and honour withdrawals.</li>
+      <li>Care-context linking, so a patient's episodes at this hospital are discoverable.</li>
+      <li>
+        Fetching patient health data from other providers once consent is granted, and viewing the
+        fetched health records against the patient's profile.
+      </li>
+      <li>Pushing documents generated at this hospital back into the ABDM ecosystem.</li>
+      <li>Notifications when a consent request arrives or its status changes.</li>
+    </ul>
+
+    <h2>Outpatient and emergency<span class="slide-tag">[slide:opd]</span></h2>
+    <p>
+      Sahai manages the outpatient department as a live queue. The OPD screen shows who is waiting,
+      who is currently in consultation and who has been seen, so front-desk staff and clinicians work
+      from the same view.
+    </p>
+    <h3>What OPD and Emergency provide</h3>
+    <ul>
+      <li>A first-come-first-served token queue for the day, with priority handling.</li>
+      <li>
+        Queue management: move a patient between waiting, in-consultation and completed states.
+      </li>
+      <li>
+        A separate emergency triage queue tracking patients who are waiting, under treatment or
+        discharged, with critical cases flagged.
+      </li>
+      <li>
+        Consultation notes and prescriptions recorded against the visit and stored on the patient's
+        record.
+      </li>
+    </ul>
+
+    <h2>Inpatient, beds and theatre<span class="slide-tag">[slide:ipd]</span></h2>
+    <p>
+      Sahai's inpatient module covers a patient's stay from admission to discharge, and includes a
+      live bed board so staff can see ward occupancy at a glance.
+    </p>
+    <h3>What the inpatient module provides</h3>
+    <ul>
+      <li>Admissions, with the patient assigned to a specific bed.</li>
+      <li>
+        A bed board showing occupancy across wards, and actions to assign or vacate a bed as patients
+        move.
+      </li>
+      <li>Configurable ward and bed types, each with its own daily rate set by the hospital.</li>
+      <li>Transfers between wards, and transfers to the operation theatre.</li>
+      <li>Nursing records and patient vitals recorded through the stay.</li>
+      <li>
+        Discharge handling, including the discharge summary and, where required, a death certificate.
+      </li>
+      <li>Operation theatre scheduling with a surgery schedule view.</li>
+    </ul>
+
+    <h2>Pharmacy and laboratory<span class="slide-tag">[slide:pharmacy]</span></h2>
+    <p>
+      Sahai includes the hospital's own pharmacy and diagnostic laboratory rather than treating them
+      as external systems, so medicines and test results stay attached to the patient record.
+    </p>
+    <h3>Pharmacy</h3>
+    <ul>
+      <li>Medicine inventory, with stock tracked per item.</li>
+      <li>Expiry monitoring, highlighting medicines approaching their expiry date.</li>
+      <li>Dispensing against a patient's prescription.</li>
+    </ul>
+    <h3>Laboratory</h3>
+    <ul>
+      <li>
+        A configurable catalogue of tests the hospital offers, each with the hospital's own price.
+      </li>
+      <li>
+        A staged order pipeline: payment pending, sample collection, then completion and report
+        upload.
+      </li>
+      <li>Report upload against the order, filed to the patient's documents.</li>
+    </ul>
+
+    <h2>Care pathways and the patient journey<span class="slide-tag">[slide:journey]</span></h2>
+    <p>
+      Sahai's care pathways feature gives each patient a structured clinical journey rather than a
+      loose collection of visits. A department defines the stages a patient should pass through, and
+      Sahai tracks each patient against that pathway.
+    </p>
+    <h3>The patient journey view</h3>
+    <p>
+      For an individual patient, Sahai assembles a single clinical picture drawing together:
+    </p>
+    <ul>
+      <li>A patient summary and their chief complaints.</li>
+      <li>Vitals and clinical history.</li>
+      <li>Investigations, including lab orders and their reports.</li>
+      <li>Diagnoses and treatment plans.</li>
+      <li>Current and historic medications, and historic prescriptions.</li>
+      <li>Procedures and surgeries.</li>
+      <li>Responses to department questionnaires.</li>
+      <li>An AI-generated clinical summary of the record.</li>
+    </ul>
+    <h3>Configuring care pathways</h3>
+    <ul>
+      <li>
+        <strong>Journey templates</strong> — per department, a named template composed of ordered
+        stages, each stage marked required or repeatable, and each template active or inactive.
+      </li>
+      <li>
+        <strong>Journey stage library</strong> — the reusable stages that templates are built from.
+      </li>
+      <li>
+        <strong>Department questionnaires</strong> — per department, a titled questionnaire with its
+        own fields, completed as part of the journey.
+      </li>
+    </ul>
+
+    <h2>Appointments and video consultations<span class="slide-tag">[slide:video]</span></h2>
+    <p>
+      Sahai handles booking for both in-person and remote consultations, and hosts the video call
+      itself rather than handing off to a third-party meeting tool.
+    </p>
+    <h3>What appointments and video consultations provide</h3>
+    <ul>
+      <li>
+        Booking against a doctor's configured availability, with appointment types covering OPD,
+        emergency, video, follow-up and walk-in.
+      </li>
+      <li>Calendar and list views of the schedule, plus editing and cancellation.</li>
+      <li>Doctor schedules defining availability windows and bookable slots.</li>
+      <li>
+        Video consultations run inside Sahai, with the patient joining from a link sent to them — no
+        account or app install required on the patient's side.
+      </li>
+      <li>Chat and file sharing alongside the video call.</li>
+    </ul>
+
+    <h2>Billing and payments<span class="slide-tag">[slide:billing]</span></h2>
+    <p>
+      Sahai consolidates charges from every part of the hospital — consultations, inpatient stays,
+      pharmacy and laboratory — into the patient's bill.
+    </p>
+    <h3>What billing provides</h3>
+    <ul>
+      <li>Invoices drawing on charges from across all modules, with an all-invoices view.</li>
+      <li>
+        Online payment through Razorpay, alongside cash, card, UPI and payment links, with receipts
+        and refunds.
+      </li>
+      <li>Automatic calculation of an inpatient bill from the stay and the bed rates applied.</li>
+      <li>A patient wallet balance and a transaction ledger.</li>
+      <li>Tracking of pending dues against collected revenue.</li>
+    </ul>
+
+    <h2>Reports and analytics<span class="slide-tag">[slide:reports]</span></h2>
+    <p>
+      Sahai's reporting gives hospital management an operational and financial picture drawn from
+      live data rather than manual returns.
+    </p>
+    <h3>What reporting provides</h3>
+    <ul>
+      <li>
+        A live patient census across outpatient, emergency, inpatient, intensive care and theatre.
+      </li>
+      <li>Revenue analytics over a selectable period, with monthly revenue trends.</li>
+      <li>Totals for revenue collected, dues outstanding, patients and appointments.</li>
+      <li>Doctor utilisation and the outpatient-to-inpatient mix.</li>
+      <li>Export to PDF for circulation.</li>
+    </ul>
+
+    <h2>Staff, roles and access control<span class="slide-tag">[slide:platform]</span></h2>
+    <p>
+      Sahai is role-based: each staff member sees the parts of the system their role requires and
+      lands on the screen relevant to their job.
+    </p>
+    <h3>The roles Sahai supports</h3>
+    <ul>
+      <li><strong>SuperAdmin</strong> — platform level, across hospitals.</li>
+      <li><strong>Admin</strong> — full access within their hospital.</li>
+      <li><strong>Doctor</strong> — clinical workspace, their own schedule and patients.</li>
+      <li><strong>Nurse</strong> — ward, vitals and nursing records.</li>
+      <li><strong>Receptionist</strong> — registration, appointments and front desk.</li>
+      <li><strong>Pharmacist</strong> — pharmacy inventory and dispensing.</li>
+      <li><strong>Pathologist</strong> — laboratory orders and reports.</li>
+    </ul>
+    <p>
+      Staff sign in with a mobile OTP or with an email and password. Sessions use short-lived tokens
+      that are rotated automatically. Staff belonging to more than one hospital choose which one they
+      are working in at sign-in.
+    </p>
+
+    <h2>Hospital setup and branding<span class="slide-tag">[slide:platform]</span></h2>
+    <p>
+      Sahai is multi-tenant. A hospital registers itself, is approved at the platform level, and then
+      configures its own environment.
+    </p>
+    <h3>What a hospital can configure</h3>
+    <ul>
+      <li>
+        Hospital profile: name, ABDM health facility identifier, address, departments and bed count.
+      </li>
+      <li>
+        White-label branding: logo, brand name, tagline, primary colour, letterhead and footer, which
+        are applied across the interface and onto generated documents.
+      </li>
+      <li>Report and invoice formats.</li>
+      <li>Ward and bed types with their daily rates.</li>
+      <li>The laboratory test catalogue and its pricing.</li>
+      <li>Notification preferences and security settings.</li>
+    </ul>
+
+    <h2>Plans and subscription<span class="slide-tag">[slide:platform]</span></h2>
+    <p>
+      Sahai is sold as a subscription per hospital. Pricing is published on the platform and a
+      hospital selects its plan when registering.
+    </p>
+    <h3>How subscription works</h3>
+    <ul>
+      <li>A hospital chooses a plan during registration, before any staff account exists.</li>
+      <li>Payment is taken online through Razorpay, by order or by payment link.</li>
+      <li>
+        A subscription runs for a term and carries a status — awaiting payment, active, payment
+        failed, refunded, or referred to sales.
+      </li>
+      <li>Larger or non-standard deployments are handled by contacting sales.</li>
+      <li>Plan pricing is maintained at the platform level and is publicly readable.</li>
+    </ul>
+
+    <h2>AI in Sahai<span class="slide-tag">[slide:intro]</span></h2>
+    <p>
+      Sahai embeds AI assistance in clinical and administrative work rather than offering it as a
+      separate product.
+    </p>
+    <ul>
+      <li>An AI assistant that answers questions about a patient in the context of their record.</li>
+      <li>AI-generated patient summaries and clinical summaries of a health record.</li>
+      <li>AI assistance for discharge documentation and prescriptions.</li>
+      <li>This voice assistant, which answers questions about Sahai itself.</li>
+    </ul>
+
+    <p class="note">
+      Reference document for Algoflow AI's Sahai HIMS, describing product capability. It deliberately
+      contains no prices, rates, counts or other figures — those are configured per hospital and
+      change independently of the product.
+    </p>
+  </body>
+</html>
