@@ -1,42 +1,19 @@
-import { Public_Sans } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { ThemeProvider } from '@/components/app/theme-provider';
-import { ThemeToggle } from '@/components/app/theme-toggle';
 import { cn } from '@/lib/shadcn/utils';
 import { getAppConfig, getStyles } from '@/lib/utils';
 import '@/styles/globals.css';
 
-const publicSans = Public_Sans({
-  variable: '--font-public-sans',
+// Geist / Geist Mono — the same pair the Sahai HIMS app uses.
+const geistSans = Geist({
+  variable: '--font-geist-sans',
   subsets: ['latin'],
 });
 
-const commitMono = localFont({
-  display: 'swap',
-  variable: '--font-commit-mono',
-  src: [
-    {
-      path: '../fonts/CommitMono-400-Regular.otf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/CommitMono-700-Regular.otf',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/CommitMono-400-Italic.otf',
-      weight: '400',
-      style: 'italic',
-    },
-    {
-      path: '../fonts/CommitMono-700-Italic.otf',
-      weight: '700',
-      style: 'italic',
-    },
-  ],
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 interface RootLayoutProps {
@@ -53,28 +30,23 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-        publicSans.variable,
-        commitMono.variable,
-        'scroll-smooth font-sans antialiased'
-      )}
+      className={cn(geistSans.variable, geistMono.variable, 'font-sans antialiased')}
     >
       <head>
         {styles && <style>{styles}</style>}
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
       </head>
-      <body className="overflow-x-hidden">
+      <body className="h-dvh overflow-hidden">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          // A kiosk has one look. Without forcedTheme the page followed the
+          // machine's OS theme and rendered dark on a dark-mode desktop.
+          forcedTheme="light"
+          defaultTheme="light"
           disableTransitionOnChange
         >
           {children}
-          <div className="group fixed bottom-0 left-1/2 z-50 mb-6 -translate-x-1/2 md:mb-2">
-            <ThemeToggle className="translate-y-20 transition-transform delay-150 duration-300 group-hover:translate-y-0" />
-          </div>
         </ThemeProvider>
       </body>
     </html>

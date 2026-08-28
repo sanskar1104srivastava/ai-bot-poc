@@ -45,13 +45,14 @@ agent-starter-react/
 
 Business logic lives within the `components/app` folder. It's here where the application's state and behavior is managed and the various Shadcn UI components are composed together.
 
-| File                  | Description                                                                                                                                           |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `session-view.tsx`    | Initializes the application, and LiveKit session. Renders the view controller and session UI including chat transcript, media tiles, and control bar. |
-| `view-controller.tsx` | Manages the transitions between the welcome and session views based on the LiveKit session state.                                                     |
-| `welcome-view.tsx`    | Renders the welcome UI when the LiveKit session is not connected.                                                                                     |
-| `chat-transcript.tsx` | Manages the chat transcript transitions.                                                                                                              |
-| `tile-layout.tsx`     | Manages the layout and transition of media tiles in various application states.                                                                       |
+| File                  | Description                                                                                                          |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `session-view.tsx`    | The kiosk shell: status header, avatar and camera column, and the content panel.                                     |
+| `view-controller.tsx` | Renders the kiosk, overlaid with the "waiting for a face" panel until the session connects.                           |
+| `presence-gate.tsx`   | Owns the only webcam/face-detector instance, auto-starts and ends the session, and shares face state via `usePresence()`. |
+| `avatar-panel.tsx`    | The Simli avatar video, with speaking rings and waveform.                                                             |
+| `camera-box.tsx`      | The user's own webcam with face-detection chrome.                                                                    |
+| `content-panel.tsx`   | Renders the slide the agent is currently talking to (see `lib/slides.ts`).                                            |
 
 ### Component usage
 

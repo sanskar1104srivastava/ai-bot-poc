@@ -42,10 +42,11 @@ export function App({ appConfig }: AppProps) {
   return (
     <AgentSessionProvider session={session}>
       <AppSetup />
-      <PresenceGate />
-      <main className="flex min-h-dvh w-full flex-col">
-        <ViewController appConfig={appConfig} />
-      </main>
+      <PresenceGate>
+        <main className="flex h-dvh w-full flex-col overflow-hidden">
+          <ViewController appConfig={appConfig} />
+        </main>
+      </PresenceGate>
       <StartAudioButton label="Start Audio" />
       <Toaster
         icons={{
