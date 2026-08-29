@@ -110,7 +110,7 @@ export const SessionView = ({
       </header>
 
       <main className="flex min-h-0 flex-1 flex-col gap-4 p-4 lg:flex-row">
-        <div className="flex min-h-0 flex-none flex-col gap-3 lg:w-[280px]">
+        <div className="flex min-h-0 flex-none flex-col gap-3 lg:w-[340px]">
           <AvatarPanel className="min-h-[280px] flex-1" />
           <CameraBox />
           <AgentControlBar
