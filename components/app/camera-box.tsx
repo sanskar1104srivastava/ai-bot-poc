@@ -28,7 +28,7 @@ export function CameraBox({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'bg-muted relative flex h-[150px] flex-none items-center justify-center overflow-hidden rounded-xl border transition-colors duration-500',
+        'bg-muted relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-xl border transition-colors duration-500',
         presence ? 'border-emerald-500/55' : 'border-primary/20',
         className
       )}
