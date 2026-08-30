@@ -3,26 +3,32 @@
 import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import {
-  ArrowRightIcon,
+  ArrowsLeftRightIcon,
   BedIcon,
   BuildingsIcon,
+  CalendarCheckIcon,
   ChartLineUpIcon,
-  CheckCircleIcon,
+  ClockCounterClockwiseIcon,
   CurrencyInrIcon,
+  FilesIcon,
+  FirstAidKitIcon,
   FlaskIcon,
   HeartbeatIcon,
   IdentificationBadgeIcon,
   IdentificationCardIcon,
-  LightningIcon,
-  MapTrifoldIcon,
+  MagnifyingGlassIcon,
+  NotePencilIcon,
+  PackageIcon,
   PathIcon,
   PillIcon,
   ReceiptIcon,
   RocketLaunchIcon,
   ShieldCheckIcon,
+  SignOutIcon,
+  SirenIcon,
   SparkleIcon,
-  StethoscopeIcon,
-  TimerIcon,
+  SquaresFourIcon,
+  TestTubeIcon,
   UsersThreeIcon,
   VideoCameraIcon,
 } from '@phosphor-icons/react/dist/ssr';
@@ -31,26 +37,33 @@ import { type IconName, SLIDES, type Slide, type SlideId } from '@/lib/slides';
 
 const ICONS: Record<IconName, React.ComponentType<{ size?: number; className?: string }>> = {
   RocketLaunch: RocketLaunchIcon,
+  SquaresFour: SquaresFourIcon,
+  MagnifyingGlass: MagnifyingGlassIcon,
+  ClockCounterClockwise: ClockCounterClockwiseIcon,
+  Files: FilesIcon,
   IdentificationCard: IdentificationCardIcon,
   IdentificationBadge: IdentificationBadgeIcon,
   ShieldCheck: ShieldCheckIcon,
+  ArrowsLeftRight: ArrowsLeftRightIcon,
   UsersThree: UsersThreeIcon,
+  NotePencil: NotePencilIcon,
+  Siren: SirenIcon,
   Bed: BedIcon,
+  Heartbeat: HeartbeatIcon,
+  FirstAidKit: FirstAidKitIcon,
+  SignOut: SignOutIcon,
   Pill: PillIcon,
+  Package: PackageIcon,
+  TestTube: TestTubeIcon,
+  Flask: FlaskIcon,
   Path: PathIcon,
-  Receipt: ReceiptIcon,
+  Sparkle: SparkleIcon,
+  CalendarCheck: CalendarCheckIcon,
   VideoCamera: VideoCameraIcon,
+  Receipt: ReceiptIcon,
+  CurrencyInr: CurrencyInrIcon,
   ChartLineUp: ChartLineUpIcon,
   Buildings: BuildingsIcon,
-  Flask: FlaskIcon,
-  Lightning: LightningIcon,
-  Heartbeat: HeartbeatIcon,
-  Sparkle: SparkleIcon,
-  Timer: TimerIcon,
-  CurrencyInr: CurrencyInrIcon,
-  MapTrifold: MapTrifoldIcon,
-  CheckCircle: CheckCircleIcon,
-  Stethoscope: StethoscopeIcon,
 };
 
 /** Squircle — softer than a circle, less boxy than a card. */
@@ -89,42 +102,6 @@ function AccentWash({ slide }: { slide: Slide }) {
         style={{ background: slide.accent2, borderRadius: SQUIRCLE }}
       />
     </div>
-  );
-}
-
-/** The four ABHA steps as connected hexagons on a gradient rail. */
-function FlowRail({ steps, slide }: { steps: string[]; slide: Slide }) {
-  const { container, item } = useListVariants();
-
-  return (
-    <motion.div
-      className="flex flex-wrap items-start justify-center gap-2 py-6"
-      variants={container}
-      initial="hidden"
-      animate="visible"
-    >
-      {steps.map((label, i) => (
-        <motion.div key={label} className="flex items-center gap-2" variants={item}>
-          <div className="flex w-[104px] flex-col items-center gap-2.5">
-            <div
-              className="grid size-[62px] place-items-center text-lg font-bold text-white shadow-lg"
-              style={{
-                background: `linear-gradient(140deg, ${slide.accent}, ${slide.accent2})`,
-                clipPath: 'polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%)',
-                boxShadow: `0 8px 22px -8px ${slide.accent}`,
-              }}
-            >
-              {i + 1}
-            </div>
-            <span className="text-center text-[11px] leading-tight font-semibold">{label}</span>
-          </div>
-
-          {i < steps.length - 1 && (
-            <ArrowRightIcon size={16} className="mb-6 shrink-0" style={{ color: slide.accent }} />
-          )}
-        </motion.div>
-      ))}
-    </motion.div>
   );
 }
 
@@ -175,38 +152,22 @@ function SlideBody({ slide }: { slide: Slide }) {
           {slide.pitch}
         </motion.p>
 
-        {slide.flow && <FlowRail steps={slide.flow} slide={slide} />}
-
-        {slide.points && (
-          <motion.div className="flex flex-col gap-3" variants={container}>
-            {slide.points.map((point) => {
-              const Icon = ICONS[point.icon];
-              return (
-                <motion.div
-                  key={point.headline}
-                  className="flex items-center gap-3.5 rounded-2xl border border-white/60 bg-white/70 p-3.5 shadow-sm backdrop-blur-sm"
-                  variants={item}
-                >
-                  <div
-                    className="grid size-11 flex-none place-items-center text-white"
-                    style={{
-                      background: `linear-gradient(140deg, ${slide.accent}, ${slide.accent2})`,
-                      borderRadius: SQUIRCLE,
-                    }}
-                  >
-                    <Icon size={20} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm leading-snug font-bold">{point.headline}</p>
-                    <p className="text-muted-foreground mt-0.5 text-xs leading-snug">
-                      {point.detail}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        )}
+        <motion.div className="flex flex-col gap-2.5" variants={container}>
+          {slide.bullets.map((bullet) => (
+            <motion.div
+              key={bullet}
+              className="flex items-start gap-3 rounded-2xl border border-white/60 bg-white/70 p-3.5 shadow-sm backdrop-blur-sm"
+              variants={item}
+            >
+              <span
+                className="mt-1.5 size-2 flex-none rounded-full"
+                style={{ background: slide.accent }}
+                aria-hidden
+              />
+              <p className="text-sm leading-snug font-medium">{bullet}</p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </div>
   );
@@ -240,24 +201,9 @@ export function ContentPanel({
           {active && (
             <>
               <div className="bg-border h-3 w-px" />
-              <span className="text-muted-foreground font-mono text-xs whitespace-nowrap">
-                {index + 1} of {SLIDES.length}
-              </span>
+              <span className="text-muted-foreground text-xs whitespace-nowrap">{slide.label}</span>
             </>
           )}
-        </div>
-
-        <div className={cn('flex items-center gap-1', !active && 'opacity-0')}>
-          {SLIDES.map((s, i) => (
-            <div
-              key={s.id}
-              className="h-1.5 rounded-full transition-all duration-300"
-              style={{
-                width: i === index ? 18 : 6,
-                background: i === index ? slide.accent : `${slide.accent}40`,
-              }}
-            />
-          ))}
         </div>
       </div>
 

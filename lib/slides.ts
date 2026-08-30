@@ -1,10 +1,17 @@
-// The kiosk deck. Sales-led: each slide leads with what the hospital gets, not
-// with what the software has. Content still comes from the real mainline feature
-// surface (origin/master) via docs/sahai-features.html, so nothing here promises
-// something the product cannot do.
+// The kiosk deck — 28 slides, matching docs/Interactive Animation Slides and
+// docs/sahai-kb-28.md. Sales-led: each slide leads with what the hospital gets,
+// not with what the software has.
 //
-// No prices, rates or invented metrics: those are configured per hospital, and a
-// number a prospect can check and find wrong costs more than it wins.
+// Every `pitch` and `bullets` line traces to a section of docs/sahai-kb-28.md.
+// The Figma source shipped claims the knowledge base does not support — "No
+// duplicate records created", "Abnormal values flagged automatically", "Audit
+// trail maintained automatically", "No manual reconciliation needed" — and those
+// are deliberately absent here. A capability a prospect can check and find
+// missing costs more than it wins.
+//
+// For the same reason there are no figures: the design's mock data (₹84,200
+// collected, 184 patients, BP 142/88, "Amlodipine 5mg") is not shown. Numbers
+// invite verification, and clinical content on a public kiosk reads as advice.
 //
 // Keep SLIDE_IDS in sync with the `show_slide` tool's enum in
 // backend/src/agent.py — the agent runs in its own container and cannot import
@@ -12,17 +19,33 @@
 
 export const SLIDE_IDS = [
   'intro',
-  'patients',
-  'abha',
-  'abdm',
-  'opd',
-  'ipd',
-  'pharmacy',
+  'connected',
+  'patient-search',
+  'patient-timeline',
+  'patient-docs',
+  'abha-create',
+  'abha-identify',
+  'abdm-consent',
+  'abdm-exchange',
+  'opd-queue',
+  'opd-notes',
+  'emergency',
+  'beds',
+  'vitals',
+  'ot',
+  'discharge',
+  'pharmacy-rx',
+  'pharmacy-inv',
+  'lab-orders',
+  'lab-reports',
   'journey',
-  'billing',
+  'ai-summary',
+  'appointments',
   'video',
+  'billing',
+  'dues',
   'reports',
-  'platform',
+  'roles',
 ] as const;
 
 export type SlideId = (typeof SLIDE_IDS)[number];
@@ -30,375 +53,465 @@ export type SlideId = (typeof SLIDE_IDS)[number];
 /** Phosphor icon name, resolved in content-panel.tsx. */
 export type IconName =
   | 'RocketLaunch'
+  | 'SquaresFour'
+  | 'MagnifyingGlass'
+  | 'ClockCounterClockwise'
+  | 'Files'
   | 'IdentificationCard'
   | 'IdentificationBadge'
   | 'ShieldCheck'
+  | 'ArrowsLeftRight'
   | 'UsersThree'
+  | 'NotePencil'
+  | 'Siren'
   | 'Bed'
-  | 'Pill'
-  | 'Path'
-  | 'Receipt'
-  | 'VideoCamera'
-  | 'ChartLineUp'
-  | 'Buildings'
-  | 'Flask'
-  | 'Lightning'
   | 'Heartbeat'
+  | 'FirstAidKit'
+  | 'SignOut'
+  | 'Pill'
+  | 'Package'
+  | 'TestTube'
+  | 'Flask'
+  | 'Path'
   | 'Sparkle'
-  | 'Timer'
+  | 'CalendarCheck'
+  | 'VideoCamera'
+  | 'Receipt'
   | 'CurrencyInr'
-  | 'MapTrifold'
-  | 'CheckCircle'
-  | 'Stethoscope';
-
-export interface SlidePoint {
-  /** The promise, in a few punchy words. */
-  headline: string;
-  /** One line of substance behind it. */
-  detail: string;
-  icon: IconName;
-}
+  | 'ChartLineUp'
+  | 'Buildings';
 
 export interface Slide {
   id: SlideId;
-  /** Small uppercase eyebrow. */
+  /** Small uppercase eyebrow — the design's `tag`. */
   label: string;
-  /** Benefit-led, not feature-led. */
+  /** Benefit-led headline. */
   title: string;
   /** The one-line pitch, shown large. */
   pitch: string;
-  /** Roughly what the avatar is saying while this is up. */
-  speech: string;
+  /** Supporting points. Plain strings, as in the design. */
+  bullets: string[];
   icon: IconName;
-  /** Vibrant per-slide accent. Drives gradients, shapes and glows. */
+  /** Per-slide accent, from the design's palette. */
   accent: string;
-  /** Second gradient stop, for depth. */
+  /** Lighter companion tone, for washes and fills. */
   accent2: string;
-  points?: SlidePoint[];
-  /** Sequential steps, drawn as a connected rail. */
-  flow?: string[];
 }
+
+// Palettes lifted from the Figma source so the deck keeps its colour rhythm.
+const BLUE = { a: '#1a6cb5', l: '#d6e9f8' };
+const TEAL = { a: '#2a9d8f', l: '#d0f0ec' };
+const VIOLET = { a: '#6d4fc2', l: '#ebe4f9' };
+const CORAL = { a: '#d4622a', l: '#fae3d6' };
+const PINE = { a: '#1e7a5c', l: '#ceeee6' };
+const INDIGO = { a: '#3b5fc0', l: '#dce4f8' };
+const ROSE = { a: '#b5446e', l: '#f8daea' };
 
 export const SLIDES: Slide[] = [
   {
     id: 'intro',
-    label: 'Sahai',
-    title: 'The hospital that runs itself',
-    pitch: 'One system for every department, ABDM-ready from day one.',
-    speech:
-      'Sahai ek intelligent hospital management system hai, jo ABDM ke saath poori tarah integrated hai.',
+    label: 'What is Sahai',
+    title: 'One connected hospital system',
+    pitch: 'Patient care, operations, ABDM and AI assistance — all in one platform.',
+    bullets: [
+      'A connected view of the patient journey',
+      'ABDM built into the hospital workflow',
+      'AI assistance within the same system',
+      'Registration through discharge',
+    ],
     icon: 'RocketLaunch',
-    accent: '#6366f1',
-    accent2: '#a855f7',
-    points: [
-      {
-        headline: 'Go live, not pilot',
-        detail: 'Implementation, data migration and staff training come with it.',
-        icon: 'Lightning',
-      },
-      {
-        headline: 'Built for Indian hospitals',
-        detail: 'ABHA, ABDM and Ayushman Bharat are standard, never an add-on.',
-        icon: 'ShieldCheck',
-      },
-      {
-        headline: 'Nothing left in a register',
-        detail: 'Registration to discharge on one record, one bill, one timeline.',
-        icon: 'Sparkle',
-      },
-    ],
+    accent: BLUE.a,
+    accent2: BLUE.l,
   },
   {
-    id: 'patients',
+    id: 'connected',
+    label: 'Platform Overview',
+    title: 'Three areas, one platform',
+    pitch: 'Clinical workflows, hospital operations and digital health — connected by design.',
+    bullets: [
+      'Patient care — clinical workflows',
+      'Hospital operations — admin and billing',
+      'Digital health — ABDM and ABHA',
+      'All within a single hospital environment',
+    ],
+    icon: 'SquaresFour',
+    accent: INDIGO.a,
+    accent2: INDIGO.l,
+  },
+  {
+    id: 'patient-search',
     label: 'Patient Records',
-    title: 'Never ask a patient twice',
-    pitch: 'One lifetime record, found by a scan instead of a search.',
-    speech: 'Har patient ka ek hi record — UHID, QR card, aur poori timeline ek jagah par.',
+    title: 'Find a returning patient quickly',
+    pitch:
+      'Front desk and doctors find returning patients using the details the hospital already has.',
+    bullets: [
+      'Find returning patients using common identifiers',
+      'The existing record surfaces instead of a new one',
+      'Available to staff across hospital departments',
+    ],
+    icon: 'MagnifyingGlass',
+    accent: BLUE.a,
+    accent2: BLUE.l,
+  },
+  {
+    id: 'patient-timeline',
+    label: 'Patient Records',
+    title: "The patient's full hospital story",
+    pitch: 'Every visit, prescription, lab report and discharge note on one connected timeline.',
+    bullets: [
+      "See the patient's hospital journey in one timeline",
+      'OPD and IPD visits visible together',
+      'Prescriptions and lab results linked to their visit',
+    ],
+    icon: 'ClockCounterClockwise',
+    accent: BLUE.a,
+    accent2: BLUE.l,
+  },
+  {
+    id: 'patient-docs',
+    label: 'Patient Records',
+    title: 'Every document, linked to the patient',
+    pitch:
+      'Clinical documents, consent forms and hospital records stay attached to the right patient.',
+    bullets: [
+      'Documents linked to the same patient',
+      'Discharge summaries stay on the record',
+      'Lab reports stay linked to the patient',
+      'Patient consent recorded in the same system',
+    ],
+    icon: 'Files',
+    accent: TEAL.a,
+    accent2: TEAL.l,
+  },
+  {
+    id: 'abha-create',
+    label: 'ABHA Registration',
+    title: 'Create ABHA during registration',
+    pitch: 'Make ABHA part of normal registration, not a separate activity to remember.',
+    bullets: [
+      'Create an ABHA while registering the patient',
+      'The process stays within the hospital system',
+      'No separate portal for the registration desk',
+    ],
     icon: 'IdentificationCard',
-    accent: '#14b8a6',
-    accent2: '#22d3ee',
-    points: [
-      {
-        headline: 'Scan and go',
-        detail: 'A QR patient card or ABHA card checks them in — no re-typing.',
-        icon: 'IdentificationBadge',
-      },
-      {
-        headline: 'The whole story, one screen',
-        detail: 'Visits, admissions, tests, bills and discharges on one timeline.',
-        icon: 'Heartbeat',
-      },
-      {
-        headline: 'Consent on record',
-        detail: 'Treatment, billing and sharing consent captured and withdrawable.',
-        icon: 'ShieldCheck',
-      },
-    ],
+    accent: TEAL.a,
+    accent2: TEAL.l,
   },
   {
-    id: 'abha',
-    label: 'ABHA',
-    title: 'An ABHA before they reach the doctor',
-    pitch: 'Create a health account at your own front desk, in four steps.',
-    speech:
-      'Mobile number se shuru, Aadhaar se verify, aur patient ka ABHA card ready ho jaata hai.',
+    id: 'abha-identify',
+    label: 'ABHA Registration',
+    title: 'Identify an existing ABHA at the desk',
+    pitch: 'If the patient already has an ABHA, link it rather than creating another.',
+    bullets: [
+      'Identify an existing ABHA at registration',
+      "Link it to the patient's hospital record",
+      'Keeps the process inside the hospital system',
+    ],
     icon: 'IdentificationBadge',
-    accent: '#f59e0b',
-    accent2: '#fb7185',
-    flow: ['Mobile Check', 'Aadhaar Verification', 'ABHA Address', 'ABHA Card'],
+    accent: TEAL.a,
+    accent2: TEAL.l,
   },
   {
-    id: 'abdm',
-    label: 'Compliance',
-    title: 'ABDM-ready, not ABDM-someday',
-    pitch: 'Consent and health records exchanged to the national standard.',
-    speech:
-      'Consent lena, records fetch karna, aur documents wapas ABDM mein bhejna — sab standards ke according.',
+    id: 'abdm-consent',
+    label: 'ABDM Integration',
+    title: 'Consent-based record sharing',
+    pitch: 'Consent for health-record sharing is managed inside Sahai, not a separate ABDM tool.',
+    bullets: [
+      'Manage consent for health-record sharing',
+      "Link the patient's care context with the hospital",
+      'Handled in the same platform as the rest of the workflow',
+    ],
     icon: 'ShieldCheck',
-    accent: '#0ea5e9',
-    accent2: '#6366f1',
-    points: [
-      {
-        headline: 'Consent, handled',
-        detail: 'Raise, track and honour withdrawal without leaving the system.',
-        icon: 'ShieldCheck',
-      },
-      {
-        headline: 'Records that follow the patient',
-        detail: 'Pull history from other providers once consent is granted.',
-        icon: 'Path',
-      },
-      {
-        headline: 'Audit-ready by default',
-        detail: 'Care-context linking and document push, logged as you go.',
-        icon: 'CheckCircle',
-      },
-    ],
+    accent: PINE.a,
+    accent2: PINE.l,
   },
   {
-    id: 'opd',
-    label: 'OPD & Emergency',
-    title: 'The queue everyone can see',
-    pitch: 'Front desk and doctors working from one live list.',
-    speech:
-      'OPD ka live queue — kaun wait kar raha hai, kaun consultation mein hai, sab ek hi screen par.',
+    id: 'abdm-exchange',
+    label: 'ABDM Integration',
+    title: 'Send and receive health records',
+    pitch: 'Share hospital records and receive them from other ABDM-connected providers.',
+    bullets: [
+      'Share hospital-generated records through ABDM',
+      'Receive records from other providers after consent',
+      "Records arrive in the patient's context",
+    ],
+    icon: 'ArrowsLeftRight',
+    accent: PINE.a,
+    accent2: PINE.l,
+  },
+  {
+    id: 'opd-queue',
+    label: 'OPD Flow',
+    title: 'Doctor and front desk on the same view',
+    pitch: 'Reception and clinical teams share one view of the patient flow.',
+    bullets: [
+      'A shared view of waiting, consultation and completed visits',
+      'Reception and doctors work from the same flow',
+      "The patient's position in the flow is visible to the team",
+    ],
     icon: 'UsersThree',
-    accent: '#f43f5e',
-    accent2: '#f59e0b',
-    points: [
-      {
-        headline: 'No more "who is next?"',
-        detail: 'Waiting, in consultation and done, updating live.',
-        icon: 'Timer',
-      },
-      {
-        headline: 'Emergencies jump the line',
-        detail: 'A separate triage queue with critical cases flagged.',
-        icon: 'Heartbeat',
-      },
-      {
-        headline: 'Notes land on the record',
-        detail: 'Consultation notes and prescriptions filed as they are written.',
-        icon: 'Stethoscope',
-      },
-    ],
+    accent: BLUE.a,
+    accent2: BLUE.l,
   },
   {
-    id: 'ipd',
-    label: 'Inpatient',
-    title: 'Know every bed, right now',
-    pitch: 'Admission to discharge, with occupancy at a glance.',
-    speech:
-      'Admission se discharge tak, aur live bed board se pata chalta hai kaun sa bed khaali hai.',
+    id: 'opd-notes',
+    label: 'OPD Consultation',
+    title: 'Consultation notes stay on the record',
+    pitch: 'What the doctor records during a visit is there at the next one.',
+    bullets: [
+      'Consultation notes recorded against the visit',
+      'Prescriptions attached to the patient record',
+      'Available to the doctor on future visits',
+    ],
+    icon: 'NotePencil',
+    accent: BLUE.a,
+    accent2: BLUE.l,
+  },
+  {
+    id: 'emergency',
+    label: 'Emergency',
+    title: 'Emergency patients in a dedicated flow',
+    pitch: 'Urgent patients are handled without being placed in the ordinary OPD queue.',
+    bullets: [
+      'Emergency patients handled in a dedicated flow',
+      'The record is created and linked to the patient',
+      "The episode stays part of the patient's journey",
+    ],
+    icon: 'Siren',
+    accent: CORAL.a,
+    accent2: CORAL.l,
+  },
+  {
+    id: 'beds',
+    label: 'IPD — Bed Management',
+    title: 'Know where every patient is',
+    pitch: 'Bed occupancy and patient placement, visible across wards.',
+    bullets: [
+      'See bed occupancy and placement across wards',
+      'Patient placed in a bed at admission',
+      "Ward transfers reflected in the patient's stay",
+    ],
     icon: 'Bed',
-    accent: '#8b5cf6',
-    accent2: '#ec4899',
-    points: [
-      {
-        headline: 'A live bed board',
-        detail: 'Occupancy across wards; assign and vacate as patients move.',
-        icon: 'Bed',
-      },
-      {
-        headline: 'Theatre on schedule',
-        detail: 'Surgery scheduling and transfers into the operation theatre.',
-        icon: 'Timer',
-      },
-      {
-        headline: 'Discharge without the scramble',
-        detail: 'Summaries and paperwork generated from the stay itself.',
-        icon: 'Receipt',
-      },
-    ],
+    accent: VIOLET.a,
+    accent2: VIOLET.l,
   },
   {
-    id: 'pharmacy',
-    label: 'Pharmacy & Lab',
-    title: 'Keep the revenue in the building',
-    pitch: 'Your own pharmacy and lab, tied to the patient record.',
-    speech:
-      'Pharmacy aur lab dono system ke andar — dawai aur report seedha patient ke record se judte hain.',
-    icon: 'Pill',
-    accent: '#10b981',
-    accent2: '#84cc16',
-    points: [
-      {
-        headline: 'Stock that warns you',
-        detail: 'Inventory per item, with medicines nearing expiry flagged.',
-        icon: 'Pill',
-      },
-      {
-        headline: 'Order to report, tracked',
-        detail: 'Payment, sample collection and report upload in stages.',
-        icon: 'Flask',
-      },
-      {
-        headline: 'Results reach the doctor',
-        detail: 'Reports file straight onto the patient documents.',
-        icon: 'Stethoscope',
-      },
+    id: 'vitals',
+    label: 'IPD — Nursing',
+    title: 'Vitals and nursing notes on the stay',
+    pitch: 'Nursing information stays linked to the admission and visible to the doctor.',
+    bullets: [
+      'Vitals and nursing information linked to the stay',
+      'Observations recorded against the admission',
+      'Part of the inpatient picture the doctor sees',
     ],
+    icon: 'Heartbeat',
+    accent: INDIGO.a,
+    accent2: INDIGO.l,
+  },
+  {
+    id: 'ot',
+    label: 'Operation Theatre',
+    title: 'Theatre movement, with the rest of the stay',
+    pitch: 'Surgery scheduling and theatre movement sit alongside the inpatient journey.',
+    bullets: [
+      'Manage transfers and operation-theatre movement',
+      'Surgery scheduling within the same platform',
+      "Theatre activity linked to the patient's admission",
+    ],
+    icon: 'FirstAidKit',
+    accent: VIOLET.a,
+    accent2: VIOLET.l,
+  },
+  {
+    id: 'discharge',
+    label: 'Discharge',
+    title: 'Discharge built into the journey',
+    pitch: 'Discharge information stays in the patient record, ready for the next visit.',
+    bullets: [
+      'Discharge information kept within the patient record',
+      'AI can assist with discharge documentation',
+      'Available to the doctor when the patient returns',
+    ],
+    icon: 'SignOut',
+    accent: TEAL.a,
+    accent2: TEAL.l,
+  },
+  {
+    id: 'pharmacy-rx',
+    label: 'Pharmacy',
+    title: 'Dispensed from the prescription',
+    pitch: "Pharmacy works from the doctor's prescription, in the same system.",
+    bullets: [
+      "Medicines dispensed against the patient's prescription",
+      'The pharmacy team works from the linked prescription',
+      'Dispensing stays connected to the patient record',
+    ],
+    icon: 'Pill',
+    accent: BLUE.a,
+    accent2: BLUE.l,
+  },
+  {
+    id: 'pharmacy-inv',
+    label: 'Pharmacy Inventory',
+    title: 'Inventory and expiry visibility',
+    pitch: 'The pharmacy team sees hospital inventory in the same system it dispenses from.',
+    bullets: [
+      'Hospital inventory visibility for the pharmacy team',
+      'Expiry visibility as part of inventory',
+      'Sits alongside the dispensing workflow',
+    ],
+    icon: 'Package',
+    accent: CORAL.a,
+    accent2: CORAL.l,
+  },
+  {
+    id: 'lab-orders',
+    label: 'Laboratory',
+    title: 'Lab orders from the consultation',
+    pitch: 'A test ordered during a visit reaches the lab without a separate paper process.',
+    bullets: [
+      'Lab orders stay linked to the patient record',
+      'Orders raised in the context of the visit',
+      'The laboratory team works from the same system',
+    ],
+    icon: 'TestTube',
+    accent: TEAL.a,
+    accent2: TEAL.l,
+  },
+  {
+    id: 'lab-reports',
+    label: 'Laboratory',
+    title: 'Results back in the patient context',
+    pitch: 'Doctors review diagnostic information alongside the rest of the clinical picture.',
+    bullets: [
+      'Lab reports stay linked to the patient record',
+      'Diagnostic information viewed in the same patient context',
+      'Results sit with the order they came from',
+    ],
+    icon: 'Flask',
+    accent: TEAL.a,
+    accent2: TEAL.l,
   },
   {
     id: 'journey',
     label: 'Care Pathways',
-    title: 'Care that follows a plan',
-    pitch: 'Every department defines its pathway; every patient is tracked on it.',
-    speech:
-      'Har department apna care pathway banata hai, aur patient us journey ke through track hota hai.',
-    icon: 'Path',
-    accent: '#d946ef',
-    accent2: '#8b5cf6',
-    points: [
-      {
-        headline: 'Your protocol, encoded',
-        detail: 'Journey templates per department, built from reusable stages.',
-        icon: 'MapTrifold',
-      },
-      {
-        headline: 'One clinical picture',
-        detail: 'Complaints, vitals, investigations, diagnoses and treatment plans.',
-        icon: 'Heartbeat',
-      },
-      {
-        headline: 'AI writes the summary',
-        detail: 'A clinical summary generated from the record itself.',
-        icon: 'Sparkle',
-      },
+    title: 'The clinical picture in one place',
+    pitch:
+      'Complaints, vitals, investigations, diagnoses and treatment plans, structured as one journey.',
+    bullets: [
+      'A more complete clinical picture in one place',
+      'Department-specific care journeys structured consistently',
+      'Previous visits available without switching systems',
     ],
+    icon: 'Path',
+    accent: PINE.a,
+    accent2: PINE.l,
+  },
+  {
+    id: 'ai-summary',
+    label: 'AI in Sahai',
+    title: 'AI inside the workflow, not beside it',
+    pitch: 'AI assistance sits in the patient workflow rather than being another standalone tool.',
+    bullets: [
+      'Ask questions in the context of the patient record',
+      'Generate patient and clinical summaries',
+      'Assist with discharge-related documentation',
+      'Assist with prescription-related work',
+    ],
+    icon: 'Sparkle',
+    accent: VIOLET.a,
+    accent2: VIOLET.l,
+  },
+  {
+    id: 'appointments',
+    label: 'Appointments',
+    title: 'Every appointment type, one schedule',
+    pitch: 'In-person, follow-up, walk-in and video consultations managed together.',
+    bullets: [
+      "Appointments follow the doctor's configured availability",
+      'In-person, follow-up, walk-in and video managed together',
+      "Connected to the patient's record",
+    ],
+    icon: 'CalendarCheck',
+    accent: INDIGO.a,
+    accent2: INDIGO.l,
+  },
+  {
+    id: 'video',
+    label: 'Video Consultation',
+    title: 'Video consults stay in the platform',
+    pitch: 'Patients join through a link, without installing another app.',
+    bullets: [
+      'Patients join a video consultation through a link',
+      'Chat and file sharing alongside the consultation',
+      'The consultation stays connected to the patient record',
+    ],
+    icon: 'VideoCamera',
+    accent: INDIGO.a,
+    accent2: INDIGO.l,
   },
   {
     id: 'billing',
     label: 'Billing',
-    title: 'Nothing leaves unbilled',
-    pitch: 'Every charge in the hospital lands on one bill.',
-    speech: 'Consultation, admission, pharmacy, lab — sab charges ek hi bill par aa jaate hain.',
-    icon: 'CurrencyInr',
-    accent: '#f97316',
-    accent2: '#facc15',
-    points: [
-      {
-        headline: 'Charges capture themselves',
-        detail: 'Consultation, stay, pharmacy and lab flow onto the invoice.',
-        icon: 'Receipt',
-      },
-      {
-        headline: 'Paid how they prefer',
-        detail: 'Razorpay online, plus cash, card, UPI and payment links.',
-        icon: 'CurrencyInr',
-      },
-      {
-        headline: 'Dues you can see',
-        detail: 'Outstanding tracked against collected, with a full ledger.',
-        icon: 'ChartLineUp',
-      },
+    title: 'One bill across every service',
+    pitch: 'Charges from consultation, IPD, pharmacy and lab come into one patient billing flow.',
+    bullets: [
+      'Combine charges from multiple hospital services',
+      'Support common payment modes and online payment',
+      'Billing connected to the services delivered',
     ],
+    icon: 'Receipt',
+    accent: VIOLET.a,
+    accent2: VIOLET.l,
   },
   {
-    id: 'video',
-    label: 'Consultations',
-    title: 'Consult beyond your catchment',
-    pitch: 'Video visits that run inside Sahai — patients just tap a link.',
-    speech: 'Video consultation Sahai ke andar hi chalta hai — patient ko sirf ek link chahiye.',
-    icon: 'VideoCamera',
-    accent: '#06b6d4',
-    accent2: '#3b82f6',
-    points: [
-      {
-        headline: 'No app, no account',
-        detail: 'The patient joins from a link you send them.',
-        icon: 'VideoCamera',
-      },
-      {
-        headline: 'Booked against real availability',
-        detail: 'Doctor schedules and slots, in calendar or list view.',
-        icon: 'Timer',
-      },
-      {
-        headline: 'Same record, same bill',
-        detail: 'Notes, prescriptions and charges behave like any other visit.',
-        icon: 'Receipt',
-      },
+    id: 'dues',
+    label: 'Collections & Dues',
+    title: 'Collections and dues in one view',
+    pitch: 'A consolidated view of invoices, collections, refunds and outstanding dues.',
+    bullets: [
+      'Track pending dues and collected revenue',
+      'Invoices, collections and refunds in one view',
+      'Based on services already recorded in the system',
     ],
+    icon: 'CurrencyInr',
+    accent: CORAL.a,
+    accent2: CORAL.l,
   },
   {
     id: 'reports',
-    label: 'Insight',
-    title: 'Run the hospital on live numbers',
-    pitch: 'Census and revenue from the system, not from manual returns.',
-    speech:
-      'Management ko live census aur revenue analytics milte hain, manual reporting ki zaroorat nahi.',
-    icon: 'ChartLineUp',
-    accent: '#3b82f6',
-    accent2: '#06b6d4',
-    points: [
-      {
-        headline: 'A live census',
-        detail: 'OPD, emergency, inpatient, ICU and theatre, right now.',
-        icon: 'Heartbeat',
-      },
-      {
-        headline: 'Revenue you can trend',
-        detail: 'Collections and dues over any period you choose.',
-        icon: 'ChartLineUp',
-      },
-      {
-        headline: 'Board-ready in a click',
-        detail: 'Doctor utilisation and the OPD-to-IPD mix, exportable to PDF.',
-        icon: 'Receipt',
-      },
+    label: 'Reports & Analytics',
+    title: 'Management visibility from your own data',
+    pitch: 'Patient activity, revenue, doctor utilisation and OPD/IPD mix, from hospital data.',
+    bullets: [
+      'See patient activity across major care areas',
+      'Track revenue trends, collections and outstanding dues',
+      'Review doctor utilisation and patient mix',
+      'Export reports when they need to be circulated',
     ],
+    icon: 'ChartLineUp',
+    accent: BLUE.a,
+    accent2: BLUE.l,
   },
   {
-    id: 'platform',
-    label: 'Platform',
-    title: 'Your hospital, your brand',
-    pitch: 'Multi-tenant, role-based and white-labelled to your identity.',
-    speech:
-      'Har hospital apna tenant hai — apni branding, apne roles, aur apni subscription ke saath.',
-    icon: 'Buildings',
-    accent: '#a855f7',
-    accent2: '#6366f1',
-    points: [
-      {
-        headline: 'Everyone sees their own job',
-        detail: 'Seven roles, from SuperAdmin to Pathologist, each scoped.',
-        icon: 'UsersThree',
-      },
-      {
-        headline: 'It looks like you',
-        detail: 'Your logo, colours and letterhead, onto the screen and documents.',
-        icon: 'Sparkle',
-      },
-      {
-        headline: 'Start small, grow later',
-        detail: 'Subscription per hospital, paid online, sales for the rest.',
-        icon: 'Buildings',
-      },
+    id: 'roles',
+    label: 'Staff & Roles',
+    title: 'The right workspace for every role',
+    pitch: 'Each team gets the workspace relevant to its job, on one connected platform.',
+    bullets: [
+      'Doctors see the clinical workspace relevant to them',
+      'Reception, nursing, pharmacy and lab in their own areas',
+      'The hospital can apply its own branding',
+      'Functions stay connected while access remains role-based',
     ],
+    icon: 'Buildings',
+    accent: ROSE.a,
+    accent2: ROSE.l,
   },
 ];
 
+/** Narrow an arbitrary RPC payload to a known slide id. */
 export function isValidSlideId(id: string): id is SlideId {
   return SLIDE_IDS.includes(id as SlideId);
 }
