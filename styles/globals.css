@@ -148,11 +148,52 @@
   animation: scan-line 1.4s ease-in-out infinite alternate;
 }
 
+
+/* ── Slide deck (docs/Interactive Animation Slides) ──────────────────────────
+   The staggered entrance the design uses. Delay classes are prefixed sd- on
+   purpose: Tailwind already owns .delay-100 for transition-delay, and an
+   unprefixed name would collide with it. */
+@keyframes sd-fade-up {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sd-scale-in {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes sd-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+.sd-init { opacity: 0; }
+.sd-fade-up { animation: sd-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.sd-scale-in { animation: sd-scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.sd-float { animation: sd-float 4s ease-in-out infinite; }
+
+.sd-delay-100 { animation-delay: 0.1s; }
+.sd-delay-200 { animation-delay: 0.2s; }
+.sd-delay-300 { animation-delay: 0.3s; }
+.sd-delay-400 { animation-delay: 0.4s; }
+.sd-delay-500 { animation-delay: 0.5s; }
+.sd-delay-700 { animation-delay: 0.7s; }
+
 @media (prefers-reduced-motion: reduce) {
   .animate-ring-pulse,
   .animate-scan-line,
+  .sd-fade-up,
+  .sd-scale-in,
+  .sd-float,
   [style*='wave-bar'],
   [style*='avatar-fade-in'] {
     animation: none !important;
+  }
+
+  /* the entrance classes start at opacity 0 — without their animation the
+     content would never appear at all */
+  .sd-init {
+    opacity: 1;
   }
 }

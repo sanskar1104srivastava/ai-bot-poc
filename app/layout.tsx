@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Outfit, Roboto_Slab } from 'next/font/google';
 import { headers } from 'next/headers';
 import { ThemeProvider } from '@/components/app/theme-provider';
 import { cn } from '@/lib/shadcn/utils';
@@ -16,6 +16,21 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+// The slide deck's typefaces (docs/Interactive Animation Slides): a slab serif
+// for headlines, Outfit for everything else. Loaded through next/font so they
+// are self-hosted and do not shift layout on first paint.
+const robotoSlab = Roboto_Slab({
+  subsets: ['latin'],
+  weight: ['400', '700', '900'],
+  variable: '--font-roboto-slab',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-outfit',
+});
+
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -30,7 +45,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(geistSans.variable, geistMono.variable, 'font-sans antialiased')}
+      className={cn(
+        geistSans.variable,
+        geistMono.variable,
+        robotoSlab.variable,
+        outfit.variable,
+        'font-sans antialiased'
+      )}
     >
       <head>
         {styles && <style>{styles}</style>}

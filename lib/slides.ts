@@ -91,6 +91,8 @@ export interface Slide {
   pitch: string;
   /** Supporting points. Plain strings, as in the design. */
   bullets: string[];
+  /** The quotable line, shown beside the illustration. Straight from the KB. */
+  expoLine: string;
   icon: IconName;
   /** Per-slide accent, from the design's palette. */
   accent: string;
@@ -119,6 +121,8 @@ export const SLIDES: Slide[] = [
       'AI assistance within the same system',
       'Registration through discharge',
     ],
+    expoLine:
+      'Sahai is designed so the hospital does not have to manage clinical, administrative and digital-health workflows as disconnected pieces.',
     icon: 'RocketLaunch',
     accent: BLUE.a,
     accent2: BLUE.l,
@@ -134,6 +138,8 @@ export const SLIDES: Slide[] = [
       'Digital health — ABDM and ABHA',
       'All within a single hospital environment',
     ],
+    expoLine:
+      'Every hospital team stays connected while working in the workspace relevant to their role.',
     icon: 'SquaresFour',
     accent: INDIGO.a,
     accent2: INDIGO.l,
@@ -149,6 +155,8 @@ export const SLIDES: Slide[] = [
       'The existing record surfaces instead of a new one',
       'Available to staff across hospital departments',
     ],
+    expoLine:
+      'The value is not just digitising a file - it is giving the doctor a connected patient history inside the hospital.',
     icon: 'MagnifyingGlass',
     accent: BLUE.a,
     accent2: BLUE.l,
@@ -163,6 +171,8 @@ export const SLIDES: Slide[] = [
       'OPD and IPD visits visible together',
       'Prescriptions and lab results linked to their visit',
     ],
+    expoLine:
+      'For a doctor, this is about seeing the patient journey as a whole instead of opening disconnected visits one by one.',
     icon: 'ClockCounterClockwise',
     accent: BLUE.a,
     accent2: BLUE.l,
@@ -179,6 +189,8 @@ export const SLIDES: Slide[] = [
       'Lab reports stay linked to the patient',
       'Patient consent recorded in the same system',
     ],
+    expoLine:
+      'The value is not just digitising a file - it is giving the doctor a connected patient history inside the hospital.',
     icon: 'Files',
     accent: TEAL.a,
     accent2: TEAL.l,
@@ -193,6 +205,7 @@ export const SLIDES: Slide[] = [
       'The process stays within the hospital system',
       'No separate portal for the registration desk',
     ],
+    expoLine: 'Your team does not need to treat ABHA as a completely separate workflow.',
     icon: 'IdentificationCard',
     accent: TEAL.a,
     accent2: TEAL.l,
@@ -207,6 +220,7 @@ export const SLIDES: Slide[] = [
       "Link it to the patient's hospital record",
       'Keeps the process inside the hospital system',
     ],
+    expoLine: 'Your team does not need to treat ABHA as a completely separate workflow.',
     icon: 'IdentificationBadge',
     accent: TEAL.a,
     accent2: TEAL.l,
@@ -221,6 +235,8 @@ export const SLIDES: Slide[] = [
       "Link the patient's care context with the hospital",
       'Handled in the same platform as the rest of the workflow',
     ],
+    expoLine:
+      'ABDM is built into Sahai as part of the hospital workflow, not positioned as a separate add-on.',
     icon: 'ShieldCheck',
     accent: PINE.a,
     accent2: PINE.l,
@@ -235,6 +251,8 @@ export const SLIDES: Slide[] = [
       'Receive records from other providers after consent',
       "Records arrive in the patient's context",
     ],
+    expoLine:
+      'ABDM is built into Sahai as part of the hospital workflow, not positioned as a separate add-on.',
     icon: 'ArrowsLeftRight',
     accent: PINE.a,
     accent2: PINE.l,
@@ -249,6 +267,8 @@ export const SLIDES: Slide[] = [
       'Reception and doctors work from the same flow',
       "The patient's position in the flow is visible to the team",
     ],
+    expoLine:
+      'The doctor and front desk are working from the same patient flow instead of maintaining separate views.',
     icon: 'UsersThree',
     accent: BLUE.a,
     accent2: BLUE.l,
@@ -263,6 +283,8 @@ export const SLIDES: Slide[] = [
       'Prescriptions attached to the patient record',
       'Available to the doctor on future visits',
     ],
+    expoLine:
+      'The doctor and front desk are working from the same patient flow instead of maintaining separate views.',
     icon: 'NotePencil',
     accent: BLUE.a,
     accent2: BLUE.l,
@@ -277,6 +299,8 @@ export const SLIDES: Slide[] = [
       'The record is created and linked to the patient',
       "The episode stays part of the patient's journey",
     ],
+    expoLine:
+      'The doctor and front desk are working from the same patient flow instead of maintaining separate views.',
     icon: 'Siren',
     accent: CORAL.a,
     accent2: CORAL.l,
@@ -291,6 +315,8 @@ export const SLIDES: Slide[] = [
       'Patient placed in a bed at admission',
       "Ward transfers reflected in the patient's stay",
     ],
+    expoLine:
+      'The inpatient stay is managed as one connected journey rather than separate ward, surgery and discharge records.',
     icon: 'Bed',
     accent: VIOLET.a,
     accent2: VIOLET.l,
@@ -305,6 +331,8 @@ export const SLIDES: Slide[] = [
       'Observations recorded against the admission',
       'Part of the inpatient picture the doctor sees',
     ],
+    expoLine:
+      'The inpatient stay is managed as one connected journey rather than separate ward, surgery and discharge records.',
     icon: 'Heartbeat',
     accent: INDIGO.a,
     accent2: INDIGO.l,
@@ -319,6 +347,8 @@ export const SLIDES: Slide[] = [
       'Surgery scheduling within the same platform',
       "Theatre activity linked to the patient's admission",
     ],
+    expoLine:
+      'The inpatient stay is managed as one connected journey rather than separate ward, surgery and discharge records.',
     icon: 'FirstAidKit',
     accent: VIOLET.a,
     accent2: VIOLET.l,
@@ -333,6 +363,8 @@ export const SLIDES: Slide[] = [
       'AI can assist with discharge documentation',
       'Available to the doctor when the patient returns',
     ],
+    expoLine:
+      'The inpatient stay is managed as one connected journey rather than separate ward, surgery and discharge records.',
     icon: 'SignOut',
     accent: TEAL.a,
     accent2: TEAL.l,
@@ -347,6 +379,8 @@ export const SLIDES: Slide[] = [
       'The pharmacy team works from the linked prescription',
       'Dispensing stays connected to the patient record',
     ],
+    expoLine:
+      'The doctor gets the clinical context, pharmacy and lab information around the same patient rather than three disconnected workflows.',
     icon: 'Pill',
     accent: BLUE.a,
     accent2: BLUE.l,
@@ -361,6 +395,8 @@ export const SLIDES: Slide[] = [
       'Expiry visibility as part of inventory',
       'Sits alongside the dispensing workflow',
     ],
+    expoLine:
+      'The doctor gets the clinical context, pharmacy and lab information around the same patient rather than three disconnected workflows.',
     icon: 'Package',
     accent: CORAL.a,
     accent2: CORAL.l,
@@ -375,6 +411,8 @@ export const SLIDES: Slide[] = [
       'Orders raised in the context of the visit',
       'The laboratory team works from the same system',
     ],
+    expoLine:
+      'The doctor gets the clinical context, pharmacy and lab information around the same patient rather than three disconnected workflows.',
     icon: 'TestTube',
     accent: TEAL.a,
     accent2: TEAL.l,
@@ -389,6 +427,8 @@ export const SLIDES: Slide[] = [
       'Diagnostic information viewed in the same patient context',
       'Results sit with the order they came from',
     ],
+    expoLine:
+      'The doctor gets the clinical context, pharmacy and lab information around the same patient rather than three disconnected workflows.',
     icon: 'Flask',
     accent: TEAL.a,
     accent2: TEAL.l,
@@ -404,6 +444,8 @@ export const SLIDES: Slide[] = [
       'Department-specific care journeys structured consistently',
       'Previous visits available without switching systems',
     ],
+    expoLine:
+      'For a doctor, this is about seeing the patient journey as a whole instead of opening disconnected visits one by one.',
     icon: 'Path',
     accent: PINE.a,
     accent2: PINE.l,
@@ -419,6 +461,8 @@ export const SLIDES: Slide[] = [
       'Assist with discharge-related documentation',
       'Assist with prescription-related work',
     ],
+    expoLine:
+      'The AI is useful because it sits alongside the patient and hospital workflow instead of asking the doctor to use a separate AI product.',
     icon: 'Sparkle',
     accent: VIOLET.a,
     accent2: VIOLET.l,
@@ -433,6 +477,8 @@ export const SLIDES: Slide[] = [
       'In-person, follow-up, walk-in and video managed together',
       "Connected to the patient's record",
     ],
+    expoLine:
+      'The hospital does not have to push the patient into a completely separate meeting tool for a video consultation.',
     icon: 'CalendarCheck',
     accent: INDIGO.a,
     accent2: INDIGO.l,
@@ -447,6 +493,8 @@ export const SLIDES: Slide[] = [
       'Chat and file sharing alongside the consultation',
       'The consultation stays connected to the patient record',
     ],
+    expoLine:
+      'The hospital does not have to push the patient into a completely separate meeting tool for a video consultation.',
     icon: 'VideoCamera',
     accent: INDIGO.a,
     accent2: INDIGO.l,
@@ -461,6 +509,8 @@ export const SLIDES: Slide[] = [
       'Support common payment modes and online payment',
       'Billing connected to the services delivered',
     ],
+    expoLine:
+      'Billing follows the patient journey instead of being maintained separately from the services the hospital has delivered.',
     icon: 'Receipt',
     accent: VIOLET.a,
     accent2: VIOLET.l,
@@ -475,6 +525,8 @@ export const SLIDES: Slide[] = [
       'Invoices, collections and refunds in one view',
       'Based on services already recorded in the system',
     ],
+    expoLine:
+      'Billing follows the patient journey instead of being maintained separately from the services the hospital has delivered.',
     icon: 'CurrencyInr',
     accent: CORAL.a,
     accent2: CORAL.l,
@@ -490,6 +542,8 @@ export const SLIDES: Slide[] = [
       'Review doctor utilisation and patient mix',
       'Export reports when they need to be circulated',
     ],
+    expoLine:
+      "Management gets a live view from the hospital's own operational data instead of waiting for separate manual reporting.",
     icon: 'ChartLineUp',
     accent: BLUE.a,
     accent2: BLUE.l,
@@ -505,6 +559,8 @@ export const SLIDES: Slide[] = [
       'The hospital can apply its own branding',
       'Functions stay connected while access remains role-based',
     ],
+    expoLine:
+      "It works as the hospital's own connected platform, with the right workspace for each team.",
     icon: 'Buildings',
     accent: ROSE.a,
     accent2: ROSE.l,

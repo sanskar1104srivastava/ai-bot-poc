@@ -2,178 +2,168 @@
 
 import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import {
-  ArrowsLeftRightIcon,
-  BedIcon,
-  BuildingsIcon,
-  CalendarCheckIcon,
-  ChartLineUpIcon,
-  ClockCounterClockwiseIcon,
-  CurrencyInrIcon,
-  FilesIcon,
-  FirstAidKitIcon,
-  FlaskIcon,
-  HeartbeatIcon,
-  IdentificationBadgeIcon,
-  IdentificationCardIcon,
-  MagnifyingGlassIcon,
-  NotePencilIcon,
-  PackageIcon,
-  PathIcon,
-  PillIcon,
-  ReceiptIcon,
-  RocketLaunchIcon,
-  ShieldCheckIcon,
-  SignOutIcon,
-  SirenIcon,
-  SparkleIcon,
-  SquaresFourIcon,
-  TestTubeIcon,
-  UsersThreeIcon,
-  VideoCameraIcon,
-} from '@phosphor-icons/react/dist/ssr';
+import { VISUALS } from '@/components/app/slide-visuals';
 import { cn } from '@/lib/shadcn/utils';
-import { type IconName, SLIDES, type Slide, type SlideId } from '@/lib/slides';
+import { SLIDES, type Slide, type SlideId } from '@/lib/slides';
 
-const ICONS: Record<IconName, React.ComponentType<{ size?: number; className?: string }>> = {
-  RocketLaunch: RocketLaunchIcon,
-  SquaresFour: SquaresFourIcon,
-  MagnifyingGlass: MagnifyingGlassIcon,
-  ClockCounterClockwise: ClockCounterClockwiseIcon,
-  Files: FilesIcon,
-  IdentificationCard: IdentificationCardIcon,
-  IdentificationBadge: IdentificationBadgeIcon,
-  ShieldCheck: ShieldCheckIcon,
-  ArrowsLeftRight: ArrowsLeftRightIcon,
-  UsersThree: UsersThreeIcon,
-  NotePencil: NotePencilIcon,
-  Siren: SirenIcon,
-  Bed: BedIcon,
-  Heartbeat: HeartbeatIcon,
-  FirstAidKit: FirstAidKitIcon,
-  SignOut: SignOutIcon,
-  Pill: PillIcon,
-  Package: PackageIcon,
-  TestTube: TestTubeIcon,
-  Flask: FlaskIcon,
-  Path: PathIcon,
-  Sparkle: SparkleIcon,
-  CalendarCheck: CalendarCheckIcon,
-  VideoCamera: VideoCameraIcon,
-  Receipt: ReceiptIcon,
-  CurrencyInr: CurrencyInrIcon,
-  ChartLineUp: ChartLineUpIcon,
-  Buildings: BuildingsIcon,
+/** Slide-deck palette, from docs/Interactive Animation Slides. */
+const C = {
+  bg: '#f0f6fc',
+  navy: '#0f2b4a',
+  text: '#1a2a3a',
+  muted: '#5a7a96',
+  border: 'rgba(26,74,120,0.1)',
+  white: '#ffffff',
 };
+
+const SERIF = 'var(--font-roboto-slab), ui-serif, Georgia, serif';
+const SANS = 'var(--font-outfit), ui-sans-serif, system-ui, sans-serif';
 
 /** Squircle — softer than a circle, less boxy than a card. */
 const SQUIRCLE = '38% 62% 63% 37% / 41% 44% 56% 59%';
 
-function useListVariants() {
-  const reduced = useReducedMotion();
-
-  return {
-    container: {
-      hidden: {},
-      visible: { transition: { staggerChildren: reduced ? 0 : 0.1, delayChildren: 0.12 } },
-    },
-    item: {
-      hidden: { opacity: 0, y: reduced ? 0 : 14, scale: reduced ? 1 : 0.96 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-      },
-    },
-  };
-}
-
-/** Soft colour wash behind the slide, so each topic feels distinct. */
-function AccentWash({ slide }: { slide: Slide }) {
+/** Faint ruled grid behind each slide, as in the design. */
+function GridLines() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      <div
-        className="absolute -top-24 -right-16 size-72 opacity-25 blur-3xl"
-        style={{ background: slide.accent, borderRadius: SQUIRCLE }}
-      />
-      <div
-        className="absolute -bottom-28 -left-20 size-72 opacity-20 blur-3xl"
-        style={{ background: slide.accent2, borderRadius: SQUIRCLE }}
-      />
+      {Array.from({ length: 7 }, (_, i) => (
+        <div
+          key={`v${i}`}
+          className="absolute top-0 bottom-0"
+          style={{ left: `${(i + 1) * 14.28}%`, borderLeft: `1px solid ${C.border}` }}
+        />
+      ))}
+      {Array.from({ length: 4 }, (_, i) => (
+        <div
+          key={`h${i}`}
+          className="absolute right-0 left-0"
+          style={{ top: `${(i + 1) * 25}%`, borderTop: `1px solid ${C.border}` }}
+        />
+      ))}
     </div>
   );
 }
 
+// The entrance is CSS (sd-* classes in globals.css), not motion variants: the
+// design staggers a dozen elements by animation-delay, and re-implementing that
+// as variants would be more code doing the same job. AnimatePresence still owns
+// the slide-to-slide crossfade, keyed on slide.id.
 function SlideBody({ slide }: { slide: Slide }) {
-  const { container, item } = useListVariants();
-  const HeroIcon = ICONS[slide.icon];
+  const Visual = VISUALS[slide.id];
+  const a = slide.accent;
+  const l = slide.accent2;
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col">
-      <AccentWash slide={slide} />
+    <div className="absolute inset-0 overflow-hidden" style={{ background: C.bg }}>
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 55% 80% at 82% 50%, ${l} 0%, transparent 72%)`,
+        }}
+      />
+      <GridLines />
 
-      <div className="relative flex min-h-0 flex-1 flex-col">
-        {/* Hero: eyebrow, gradient headline, and the pitch line. */}
-        <motion.div className="mb-5 flex items-start gap-4" variants={item}>
-          <div
-            className="grid size-14 flex-none place-items-center text-white shadow-lg"
-            style={{
-              background: `linear-gradient(140deg, ${slide.accent}, ${slide.accent2})`,
-              borderRadius: SQUIRCLE,
-              boxShadow: `0 10px 26px -10px ${slide.accent}`,
-            }}
-          >
-            <HeroIcon size={26} />
-          </div>
-
-          <div className="min-w-0">
+      <div className="relative grid h-full grid-cols-1 lg:grid-cols-2">
+        <div className="flex min-w-0 flex-col justify-center px-8 py-8 lg:px-12">
+          <div className="sd-init sd-fade-up mb-4 flex items-center gap-2">
+            <div className="h-0.5 w-7 flex-none rounded-full" style={{ background: a }} />
             <span
-              className="font-mono text-[11px] font-bold tracking-[0.18em] uppercase"
-              style={{ color: slide.accent }}
+              style={{
+                fontFamily: SANS,
+                fontSize: '0.67rem',
+                fontWeight: 700,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: a,
+              }}
             >
               {slide.label}
             </span>
-            <h2
-              className="mt-1 text-[27px] leading-[1.12] font-extrabold text-balance"
+          </div>
+
+          <h2
+            className="sd-init sd-fade-up sd-delay-100 mb-3 text-balance"
+            style={{
+              fontFamily: SERIF,
+              fontSize: 'clamp(1.45rem,2.5vw,2.3rem)',
+              fontWeight: 900,
+              lineHeight: 1.08,
+              color: C.navy,
+            }}
+          >
+            {slide.title}
+          </h2>
+
+          <div className="sd-init sd-fade-up sd-delay-200 mb-4">
+            <div className="h-1 w-14 rounded-full" style={{ background: a, opacity: 0.4 }} />
+          </div>
+
+          <p
+            className="sd-init sd-fade-up sd-delay-300 mb-5 leading-relaxed"
+            style={{ fontFamily: SANS, fontSize: '0.95rem', color: C.muted, maxWidth: '36ch' }}
+          >
+            {slide.pitch}
+          </p>
+
+          <ul className="mb-6 space-y-2">
+            {slide.bullets.map((b, i) => (
+              <li
+                key={b}
+                className="sd-init sd-fade-up flex items-start gap-2"
+                style={{ animationDelay: `${0.38 + i * 0.09}s` }}
+              >
+                <div className="mt-1.5 size-1.5 flex-none rounded-full" style={{ background: a }} />
+                <span style={{ fontFamily: SANS, fontSize: '0.83rem', color: C.text }}>{b}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div
+            className="sd-init sd-fade-up sd-delay-700 border-l-2 pl-3"
+            style={{ borderColor: a, maxWidth: '40ch' }}
+          >
+            <p
               style={{
-                backgroundImage: `linear-gradient(100deg, ${slide.accent}, ${slide.accent2})`,
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
+                fontFamily: SANS,
+                fontSize: '0.76rem',
+                fontStyle: 'italic',
+                color: C.muted,
+                lineHeight: 1.55,
               }}
             >
-              {slide.title}
-            </h2>
+              &ldquo;{slide.expoLine}&rdquo;
+            </p>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.p className="mb-5 text-[15px] leading-relaxed font-medium" variants={item}>
-          {slide.pitch}
-        </motion.p>
-
-        <motion.div className="flex flex-col gap-2.5" variants={container}>
-          {slide.bullets.map((bullet) => (
-            <motion.div
-              key={bullet}
-              className="flex items-start gap-3 rounded-2xl border border-white/60 bg-white/70 p-3.5 shadow-sm backdrop-blur-sm"
-              variants={item}
-            >
-              <span
-                className="mt-1.5 size-2 flex-none rounded-full"
-                style={{ background: slide.accent }}
-                aria-hidden
-              />
-              <p className="text-sm leading-snug font-medium">{bullet}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="hidden items-center justify-center pr-8 lg:flex">
+          <div
+            className="sd-init sd-scale-in sd-delay-300 relative flex items-center justify-center"
+            style={{
+              width: 'min(300px, 88%)',
+              aspectRatio: '1',
+              background: C.white,
+              borderRadius: '24px',
+              border: `1px solid ${C.border}`,
+              boxShadow: '0 20px 56px rgba(26,74,120,0.09),0 4px 14px rgba(26,74,120,0.05)',
+            }}
+          >
+            <div
+              className="pointer-events-none absolute inset-0 rounded-3xl"
+              style={{
+                background: `radial-gradient(circle at 50% 50%, ${l}88 0%, transparent 65%)`,
+              }}
+            />
+            <div className="sd-float relative" style={{ width: '73%', height: '73%' }}>
+              <Visual a={a} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-/** The right-hand workspace: whichever slide the agent is currently talking to. */
 export function ContentPanel({
   slideId,
   active,
@@ -186,7 +176,6 @@ export function ContentPanel({
 }) {
   const index = SLIDES.findIndex((s) => s.id === slideId);
   const slide = SLIDES[index];
-  const { container } = useListVariants();
   const reduced = useReducedMotion();
 
   return (
@@ -248,11 +237,11 @@ export function ContentPanel({
           ) : (
             <motion.div
               key={slide.id}
-              variants={container}
-              initial="hidden"
-              animate="visible"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
-              className="flex min-h-0 flex-1 flex-col"
+              transition={{ duration: 0.25 }}
+              className="absolute inset-0"
             >
               <SlideBody slide={slide} />
             </motion.div>
